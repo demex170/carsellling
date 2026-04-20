@@ -46,7 +46,13 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        onValue(ref(db, 'site_views'), (snap) => { document.getElementById('totalViews').innerText = snap.val() || 0; });
+        // ვამოწმებთ არის თუ არა ადმინი ლინკით: catalog.html?admin=123
+        const urlParams = new URLSearchParams(window.location.search);
+        const isAdmin = urlParams.get('admin') === '123'; // '123' არის შენი საიდუმლო კოდი
+
+        onValue(ref(db, 'site_views'), (snap) => { 
+            document.getElementById('totalViews').innerText = snap.val() || 0; 
+        });
 
         onValue(ref(db, 'cars'), (snapshot) => {
             const grid = document.getElementById('catalogGrid');
@@ -58,12 +64,16 @@
                 const car = data[id];
                 const card = document.createElement('div');
                 card.className = 'car-card';
+                
+                // წაშლის ღილაკი შეიქმნება მხოლოდ თუ isAdmin არის true
+                const deleteBtn = isAdmin ? `<button class="delete-btn" onclick="deleteCar('${id}')">წაშლა (Admin)</button>` : '';
+
                 card.innerHTML = `
                     <div class="car-img" style="background-image: url('${car.image}')" onclick="showDetails('${id}')"></div>
                     <div class="car-details">
                         <h3 onclick="showDetails('${id}')" style="cursor:pointer">${car.model}</h3>
                         <p class="car-price">$${car.price}</p>
-                        <button class="delete-btn" onclick="deleteCar('${id}')">წაშლა</button>
+                        ${deleteBtn}
                     </div>
                 `;
                 grid.appendChild(card);
@@ -86,11 +96,15 @@
             };
 
             window.deleteCar = (id) => {
-                if(confirm("წავშალოთ განცხადება?")) remove(ref(db, 'cars/' + id));
+                if(isAdmin && confirm("ნამდვილად გსურთ წაშლა?")) {
+                    remove(ref(db, 'cars/' + id));
+                }
             };
         });
 
-        document.querySelector('.close').onclick = () => { document.getElementById('carModal').style.display = "none"; };
+        document.querySelector('.close').onclick = () => { 
+            document.getElementById('carModal').style.display = "none"; 
+        };
     </script>
 </body>
 </html>
