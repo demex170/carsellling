@@ -4,77 +4,58 @@
     <meta charset="UTF-8">
     <title>AutoMarket | კატალოგი</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <nav class="navbar">
         <div class="logo">AUTO<span>MARKET</span></div>
         <ul class="nav-links">
             <li><a href="index.html">მთავარი</a></li>
-            <li><a href="catalog.html" style="color: var(--accent);">კატალოგი</a></li>
-            <li><a onclick="window.location.href='index.html#aboutModal'">ჩვენს შესახებ</a></li>
+            <li><a href="catalog.html">კატალოგი</a></li>
         </ul>
     </nav>
 
     <main class="container">
         <h2 class="section-title">ყველა <span>განცხადება</span></h2>
-        
-        <div id="catGrid" class="car-grid"></div>
+        <div id="catGrid" class="car-grid">
+            </div>
     </main>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // შენი Firebase კონფიგურაცია
         const config = {
             apiKey: "AIzaSyCx2sZJQqP8ni_dz9fuhJwKWJrHnKRjGdE",
             databaseURL: "https://automarket-2026-default-rtdb.europe-west1.firebasedatabase.app",
             projectId: "automarket-2026",
             appId: "1:689194639330:web:db854d0dbfddded899a3bb"
         };
-
         const app = initializeApp(config);
         const db = getDatabase(app);
         const grid = document.getElementById('catGrid');
 
-        // მონაცემების რეალურ დროში წამოღება
-        onValue(ref(db, 'cars'), (snapshot) => {
-            const data = snapshot.val();
+        // მონაცემების წამოღება
+        onValue(ref(db, 'cars'), (snap) => {
+            const data = snap.val();
             grid.innerHTML = ""; 
-
-            if (!data) {
-                grid.innerHTML = "<h3 style='grid-column: 1/-1; text-align: center; color: #444; margin-top: 50px;'>განცხადებები ჯერ არ არის.</h3>";
+            if(!data) {
+                grid.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>განცხადებები არ არის</p>";
                 return;
             }
-
-            // ახალი განცხადებები გამოჩნდეს თავში
-            Object.entries(data).reverse().forEach(([id, car]) => {
-                const card = document.createElement('div');
-                card.className = 'car-card';
-
-                card.innerHTML = `
-                    <div class="car-img" style="background-image:url('${car.image}')">
-                        <div class="overlay">
-                            <h4>${car.model}</h4>
-                            <p>${car.year} წელი</p>
-                            <a href="tel:${car.phone}" style="color: white; text-decoration: none; margin-top: 15px; border: 2px solid white; padding: 8px 20px; border-radius: 10px; font-weight: bold; transition: 0.3s;">
-                                <i class="fas fa-phone"></i> დარეკვა
-                            </a>
+            
+            Object.values(data).reverse().forEach(car => {
+                grid.innerHTML += `
+                    <div class="car-card">
+                        <div class="car-img" style="background-image:url('${car.image}')">
+                            <div class="overlay"><h4>${car.model}</h4><p>${car.year} წელი</p></div>
                         </div>
-                    </div>
-                    <div class="car-details">
-                        <h3>${car.model}</h3>
-                        <div style="display: flex; justify-content: center; gap: 10px; color: #666; font-size: 14px; margin-bottom: 10px;">
-                            <span><i class="fas fa-calendar"></i> ${car.year}</span>
-                            <span>|</span>
-                            <span><i class="fas fa-gas-pump"></i> ${car.fuel || 'ბენზინი'}</span>
+                        <div class="car-details">
+                            <h3>${car.model}</h3>
+                            <p class="car-price">${car.price} $</p>
+                            <p style="color:#777; margin-top:5px;">${car.phone}</p>
                         </div>
-                        <p class="car-price">${car.price} $</p>
-                        <p style="margin-top: 12px; font-weight: 600; letter-spacing: 1px; color: #ccc;">${car.phone}</p>
                     </div>
                 `;
-                grid.appendChild(card);
             });
         });
     </script>
