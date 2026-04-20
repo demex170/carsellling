@@ -2,7 +2,7 @@
 <html lang="ka" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <title>ავტო კატალოგი</title>
+    <title>კატალოგი</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -16,14 +16,13 @@
     </nav>
 
     <main class="container">
-        <h2 class="section-title">ყველა განცხადება</h2>
-        <div class="car-grid" id="catGrid">
-            </div>
+        <h2 class="section-title">ავტო კატალოგი</h2>
+        <div class="car-grid" id="catGrid"></div>
     </main>
 
     <div id="detModal" class="full-modal">
         <div class="modal-box" style="max-width:700px">
-            <span class="close-modal" onclick="toggleModal('detModal')">&times;</span>
+            <span class="close-modal" onclick="closeDet()">&times;</span>
             <div id="detContent"></div>
         </div>
     </div>
@@ -44,34 +43,20 @@
         onValue(ref(db, 'cars'), s => {
             const data = s.val();
             const grid = document.getElementById('catGrid');
-            if(!data) return grid.innerHTML = "<h3>განცხადებები არ არის</h3>";
-            
+            if(!data) return;
             grid.innerHTML = Object.entries(data).map(([id, c]) => `
                 <div class="car-card" onclick="showDet('${c.model}', '${c.price}', '${c.phone}', '${c.image}')">
                     <div class="car-img" style="background-image:url('${c.image}')"></div>
-                    <div class="car-details">
-                        <h3>${c.model}</h3>
-                        <p class="car-price">${c.price} $</p>
-                    </div>
+                    <div class="car-details"><h3>${c.model}</h3><p class="car-price">${c.price} $</p></div>
                 </div>
             `).join('');
         });
 
         window.showDet = (m, p, t, i) => {
-            document.getElementById('detContent').innerHTML = `
-                <div style="text-align:center">
-                    <img src="${i}" style="width:100%; border-radius:15px">
-                    <h2 style="margin-top:20px">${m}</h2>
-                    <h1 style="color:var(--accent)">${p} $</h1>
-                    <p>ტელეფონი: ${t}</p>
-                    <a href="https://wa.me/${t}" class="wa-btn" target="_blank">WhatsApp-ით მიწერა</a>
-                </div>
-            `;
-            const mBox = document.getElementById('detModal');
-            mBox.style.display = "flex";
+            document.getElementById('detContent').innerHTML = `<img src="${i}" style="width:100%; border-radius:10px"><h2>${m}</h2><h1 style="color:var(--accent)">${p} $</h1><p>ტელეფონი: ${t}</p><a href="https://wa.me/${t}" class="wa-btn" target="_blank">WhatsApp</a>`;
+            document.getElementById('detModal').style.display = "flex";
         };
-
-        window.toggleModal = (id) => { document.getElementById(id).style.display = "none"; }
+        window.closeDet = () => { document.getElementById('detModal').style.display = "none"; };
     </script>
 </body>
 </html>
