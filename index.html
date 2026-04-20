@@ -24,66 +24,53 @@
     <main class="container">
         <h2 class="section-title">პოპულარული <span>მოდელები</span></h2>
         <div class="car-grid">
-            
-            <div class="car-card">
-                <div class="car-img" style="background-image:url('w211.jpg')">
-                    <div class="overlay"><h4>Mercedes W211</h4><p>E-Class Classic</p></div>
-                </div>
-                <div class="car-details"><h3>Mercedes-Benz W211</h3><p class="car-price">18,000 $</p></div>
+            <div class="car-card" onclick="showCar('Mercedes W211', '18,000 $', 'W211 არის კომფორტის და ხარისხის სიმბოლო.', 'w211.jpg')">
+                <div class="car-img" style="background-image:url('w211.jpg')"><div class="overlay">ნახვა</div></div>
+                <div class="car-details"><h3>Mercedes W211</h3><p class="car-price">18,000 $</p></div>
             </div>
-
-            <div class="car-card">
-                <div class="car-img" style="background-image:url('m5.jpg')">
-                    <div class="overlay"><h4>BMW M5 E60</h4><p>V10 Engine</p></div>
-                </div>
+            <div class="car-card" onclick="showCar('BMW M5 E60', '28,000 $', 'ლეგენდარული V10 ძრავი.', 'e60.jpg')">
+                <div class="car-img" style="background-image:url('e60.jpg')"><div class="overlay">ნახვა</div></div>
                 <div class="car-details"><h3>BMW M5 E60</h3><p class="car-price">28,000 $</p></div>
             </div>
-
-            <div class="car-card">
-                <div class="car-img" style="background-image:url('cls.jpg')">
-                    <div class="overlay"><h4>Mercedes W218</h4><p>CLS 63 AMG</p></div>
-                </div>
+            <div class="car-card" onclick="showCar('Mercedes CLS W218', '35,000 $', 'პრემიუმ კლასის კუპე.', 'w218.jpg')">
+                <div class="car-img" style="background-image:url('w218.jpg')"><div class="overlay">ნახვა</div></div>
                 <div class="car-details"><h3>Mercedes CLS W218</h3><p class="car-price">35,000 $</p></div>
             </div>
-
-            <div class="car-card">
-                <div class="car-img" style="background-image:url('m4.jpg')">
-                    <div class="overlay"><h4>BMW M4 G82</h4><p>2022 მოდელი</p></div>
-                </div>
+            <div class="car-card" onclick="showCar('BMW M4 G82', '75,000 $', 'უახლესი თაობის სპორტული ავტომობილი.', 'm4.jpg')">
+                <div class="car-img" style="background-image:url('m4.jpg')"><div class="overlay">ნახვა</div></div>
                 <div class="car-details"><h3>BMW M4 G82</h3><p class="car-price">75,000 $</p></div>
             </div>
-
-            <div class="car-card">
-                <div class="car-img" style="background-image:url('bugatti.jpg')">
-                    <div class="overlay"><h4>Bugatti</h4><p>La Voiture Noire</p></div>
-                </div>
-                <div class="car-details"><h3>Bugatti La Voiture</h3><p class="car-price">18,000,000 $</p></div>
+            <div class="car-card" onclick="showCar('Bugatti', '18,000,000 $', 'მსოფლიოში ერთ-ერთი უსწრაფესი.', 'bugatti.jpg')">
+                <div class="car-img" style="background-image:url('bugatti.jpg')"><div class="overlay">ნახვა</div></div>
+                <div class="car-details"><h3>Bugatti La Voiture</h3><p class="car-price">18M $</p></div>
             </div>
-
-            <div class="car-card">
-                <div class="car-img" style="background-image:url('gt3rs.jpg')">
-                    <div class="overlay"><h4>Porsche 911</h4><p>GT3 RS</p></div>
-                </div>
+            <div class="car-card" onclick="showCar('Porsche 911', '350,000 $', 'GT3 RS - ტრეკის მეფე.', 'porsche.jpg')">
+                <div class="car-img" style="background-image:url('porsche.jpg')"><div class="overlay">ნახვა</div></div>
                 <div class="car-details"><h3>Porsche 911 GT3</h3><p class="car-price">350,000 $</p></div>
             </div>
-
-            <div class="car-card">
-                <div class="car-img" style="background-image:url('w219.jpg')">
-                    <div class="overlay"><h4>Mercedes W219</h4><p>CLS Classic</p></div>
-                </div>
+            <div class="car-card" onclick="showCar('Mercedes CLS W219', '15,000 $', 'პირველი თაობის ლეგენდარული CLS.', 'w219.jpg')">
+                <div class="car-img" style="background-image:url('w219.jpg')"><div class="overlay">ნახვა</div></div>
                 <div class="car-details"><h3>Mercedes CLS W219</h3><p class="car-price">15,000 $</p></div>
             </div>
-
         </div>
     </main>
+
+    <div id="infoModal" class="full-modal">
+        <div class="modal-box">
+            <span class="close-modal" onclick="toggleModal('infoModal')">&times;</span>
+            <img id="infoImg" style="width:100%; border-radius:15px; margin-bottom:15px;">
+            <h2 id="infoTitle"></h2>
+            <h3 id="infoPrice" style="color:var(--accent); margin:10px 0;"></h3>
+            <p id="infoDesc" style="color:#aaa; line-height:1.6;"></p>
+            <button class="submit-btn" onclick="toggleModal('infoModal')">დახურვა</button>
+        </div>
+    </div>
 
     <div id="aboutModal" class="full-modal">
         <div class="modal-box">
             <span class="close-modal" onclick="toggleModal('aboutModal')">&times;</span>
-            <h2 style="text-align: center;">ჩვენს <span>შესახებ</span></h2>
-            <p style="margin-top: 20px; color: #888; text-align: center; line-height: 1.6;">
-                AutoMarket არის თანამედროვე ავტო-პლატფორმა, რომელიც აკავშირებს მყიდველებსა და გამყიდველებს საქართველოში. ჩვენი მიზანია შევქმნათ ყველაზე კომფორტული და უსაფრთხო გარემო ავტომობილების ყიდვა-გაყიდვისთვის.
-            </p>
+            <h2>ჩვენს <span>შესახებ</span></h2>
+            <p style="margin-top:20px; color:#aaa;">AutoMarket არის საქართველოში წამყვანი ავტო-პლატფორმა. ჩვენ გთავაზობთ სწრაფ და მარტივ გზას მანქანის გასაყიდად ან შესაძენად.</p>
         </div>
     </div>
 
@@ -98,7 +85,7 @@
                 <input type="tel" id="mPhone" placeholder="ნომერი" required>
                 <input type="file" id="mFile" accept="image/*" required>
                 <p id="status" style="font-size:12px; margin-top:5px; color:var(--accent)"></p>
-                <button type="submit" id="subBtn" class="submit-btn" disabled>ატვირთვა</button>
+                <button type="submit" id="subBtn" class="submit-btn" disabled>გამოქვეყნება</button>
             </form>
         </div>
     </div>
@@ -116,6 +103,28 @@
         const app = initializeApp(config);
         const db = getDatabase(app);
 
+        // Modal Logic
+        window.toggleModal = (id) => {
+            const m = document.getElementById(id);
+            if (!m.classList.contains('active')) {
+                m.style.display = 'flex';
+                setTimeout(() => m.classList.add('active'), 10);
+            } else {
+                m.classList.remove('active');
+                setTimeout(() => m.style.display = 'none', 300);
+            }
+        }
+
+        // Show Car Info Function
+        window.showCar = (title, price, desc, img) => {
+            document.getElementById('infoTitle').innerText = title;
+            document.getElementById('infoPrice').innerText = price;
+            document.getElementById('infoDesc').innerText = desc;
+            document.getElementById('infoImg').src = img;
+            toggleModal('infoModal');
+        }
+
+        // Image Upload & Firebase
         const fileIn = document.getElementById('mFile');
         const sBtn = document.getElementById('subBtn');
 
@@ -130,7 +139,7 @@
                     sBtn.disabled = false;
                     document.getElementById('status').innerText = "მზადაა!";
                 }
-            } catch(err) { alert("შეცდომა სურათის ატვირთვისას"); }
+            } catch(err) { alert("შეცდომა სურათზე"); }
         };
 
         document.getElementById('sellForm').onsubmit = async (e) => {
@@ -145,11 +154,6 @@
             await push(ref(db, 'cars'), carData);
             location.href = "catalog.html";
         };
-
-        window.toggleModal = (id) => {
-            const m = document.getElementById(id);
-            m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
-        }
     </script>
 </body>
 </html>
