@@ -1,377 +1,51 @@
-/* ძირითადი პარამეტრები */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+body { background: #0b0b0b; color: white; scroll-behavior: smooth; }
+.container { max-width: 1200px; margin: auto; padding: 0 20px; }
 
-body {
-    background: #0b0b0b; /* მუქი, პრემიუმ ფონი */
-    color: white;
-    scroll-behavior: smooth;
-    line-height: 1.6;
-}
+/* Header */
+.navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 8%; background: rgba(0,0,0,0.95); border-bottom: 1px solid #222; position: fixed; width: 100%; top: 0; z-index: 1000; }
+.logo span { color: #ff3e3e; }
+.nav-links { list-style: none; display: flex; align-items: center; }
+.nav-links li { margin-left: 20px; }
+.nav-links a { color: white; text-decoration: none; font-size: 14px; transition: 0.3s; }
+.nav-links a:hover { color: #ff3e3e; }
+.btn-sell { background: #ff3e3e; padding: 8px 15px; border-radius: 5px; font-weight: bold; }
 
-.container {
-    max-width: 1200px;
-    margin: auto;
-    padding: 0 20px;
-}
+/* Sections */
+.hero { height: 60vh; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1500'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; text-align: center; }
+.hero h1 { font-size: 45px; margin-bottom: 10px; }
 
-/* ნავიგაცია */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 8%;
-    background: rgba(0, 0, 0, 0.9);
-    border-bottom: 1px solid #222;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
-    backdrop-filter: blur(10px);
-}
+.popular-cars { padding: 80px 0; }
+.section-title { text-align: center; margin-bottom: 40px; font-size: 30px; text-transform: uppercase; }
 
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-    letter-spacing: 1px;
-}
+.pop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+.pop-card { background: #151515; border-radius: 12px; overflow: hidden; border: 1px solid #222; transition: 0.3s; }
+.pop-card:hover { transform: translateY(-5px); border-color: #ff3e3e; }
+.pop-img { height: 200px; background-size: cover; background-position: center; }
+.pop-info { padding: 20px; }
+.pop-specs { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+.pop-specs span { background: #222; padding: 5px 10px; font-size: 12px; border-radius: 4px; color: #aaa; display: flex; align-items: center; }
+.pop-specs i { color: #ff3e3e; margin-right: 5px; }
 
-.logo span {
-    color: #ff3e3e;
-}
+/* About & Admin Form */
+.about-section { padding: 80px 0; background: #0f0f0f; border-top: 1px solid #222; }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+.about-info p { color: #ccc; line-height: 1.8; font-size: 16px; }
+.contact-admin { background: #151515; padding: 30px; border-radius: 12px; border: 1px solid #222; }
+.contact-admin h3 { color: #ff3e3e; margin-bottom: 20px; font-size: 20px; }
 
-.nav-links {
-    list-style: none;
-    display: flex;
-    align-items: center;
-}
+textarea { background: #1a1a1a; border: 1px solid #333; padding: 12px; color: white; width: 100%; border-radius: 6px; outline: none; resize: vertical; margin-bottom: 15px; font-family: inherit; }
+textarea:focus { border-color: #ff3e3e; }
 
-.nav-links li {
-    margin-left: 25px;
-}
+/* Forms & Utils */
+.form-section { padding: 80px 0; }
+.form-card { background: #121212; padding: 35px; border-radius: 12px; border: 1px solid #222; max-width: 600px; margin: auto; }
+.field { margin-bottom: 15px; }
+.field label { font-size: 12px; color: #888; display: block; margin-bottom: 5px; }
+input, select { background: #1a1a1a; border: 1px solid #333; padding: 12px; color: white; width: 100%; border-radius: 6px; }
+input:focus, select:focus { border-color: #ff3e3e; outline: none; }
+.submit-btn { background: #ff3e3e; color: white; border: none; padding: 14px; width: 100%; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+.submit-btn:hover { background: #e63535; }
+.submit-btn:disabled { background: #444; cursor: not-allowed; }
 
-.nav-links a {
-    color: white;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    transition: 0.3s;
-}
-
-.nav-links a:hover {
-    color: #ff3e3e;
-}
-
-.btn-sell {
-    background: #ff3e3e;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-weight: bold;
-}
-
-/* ნახვების მთვლელი */
-.view-count {
-    background: #111;
-    padding: 15px;
-    text-align: center;
-    font-size: 14px;
-    border-bottom: 1px solid #222;
-    margin-top: 80px;
-    color: #888;
-}
-
-.view-count span {
-    color: #ff3e3e;
-    font-weight: bold;
-}
-
-/* Hero სექცია */
-.hero {
-    height: 70vh;
-    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
-                url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1500');
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-
-.hero h1 {
-    font-size: 50px;
-    margin-bottom: 10px;
-}
-
-.hero p {
-    font-size: 18px;
-    color: #ccc;
-}
-
-/* პოპულარული მანქანების გრიდი (აქ არის მთავარი ცვლილება) */
-.popular-cars {
-    padding: 80px 0;
-}
-
-.section-title {
-    text-align: center;
-    margin-bottom: 40px;
-    font-size: 32px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-.pop-grid {
-    display: grid;
-    /* ავტომატურად სვამს იმდენ სვეტს, რამდენიც ჩაეტევა (მინიმუმ 300 პიქსელი) */
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 30px;
-}
-
-.pop-card {
-    background: #151515;
-    border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid #222;
-    transition: 0.4s;
-}
-
-.pop-card:hover {
-    transform: translateY(-10px);
-    border-color: #ff3e3e;
-    box-shadow: 0 10px 30px rgba(255, 62, 62, 0.1);
-}
-
-.pop-img {
-    height: 220px;
-    background-size: cover;
-    background-position: center;
-    transition: 0.5s;
-}
-
-.pop-info {
-    padding: 25px;
-}
-
-.pop-info h3 {
-    color: #fff;
-    margin-bottom: 15px;
-    font-size: 20px;
-}
-
-.pop-specs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.pop-specs span {
-    background: #222;
-    padding: 6px 12px;
-    font-size: 12px;
-    border-radius: 4px;
-    color: #aaa;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.pop-specs i {
-    color: #ff3e3e;
-}
-
-/* კატალოგის ბარათები */
-.car-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 25px;
-}
-
-.car-card {
-    background: #181818;
-    border-radius: 10px;
-    overflow: hidden;
-    border: 1px solid #222;
-}
-
-.car-img {
-    height: 200px;
-    background-size: cover;
-    background-position: center;
-    cursor: pointer;
-}
-
-.car-details {
-    padding: 20px;
-}
-
-.car-price {
-    color: #ff3e3e;
-    font-size: 22px;
-    font-weight: bold;
-    margin: 10px 0;
-}
-
-/* ფორმის სექცია */
-.form-section {
-    padding: 100px 0;
-    background: #080808;
-}
-
-.form-card {
-    background: #121212;
-    padding: 40px;
-    border-radius: 15px;
-    border: 1px solid #222;
-    max-width: 700px;
-    margin: auto;
-}
-
-.input-group {
-    display: flex;
-    gap: 20px;
-}
-
-.field {
-    margin-bottom: 20px;
-    width: 100%;
-}
-
-.field label {
-    font-size: 13px;
-    color: #777;
-    display: block;
-    margin-bottom: 8px;
-}
-
-input, select {
-    background: #1a1a1a;
-    border: 1px solid #333;
-    padding: 12px;
-    color: white;
-    width: 100%;
-    border-radius: 6px;
-    outline: none;
-    transition: 0.3s;
-}
-
-input:focus, select:focus {
-    border-color: #ff3e3e;
-}
-
-.submit-btn {
-    background: #ff3e3e;
-    color: white;
-    border: none;
-    padding: 15px;
-    width: 100%;
-    border-radius: 6px;
-    font-weight: bold;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.submit-btn:hover {
-    background: #e63535;
-}
-
-.submit-btn:disabled {
-    background: #333;
-    cursor: not-allowed;
-}
-
-/* წაშლის ღილაკი (Admin) */
-.delete-btn {
-    background: none;
-    border: 1px solid #ff3e3e;
-    color: #ff3e3e;
-    padding: 8px;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 15px;
-    transition: 0.3s;
-}
-
-.delete-btn:hover {
-    background: #ff3e3e;
-    color: white;
-}
-
-/* Modal - დეტალური ინფორმაცია */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 2000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.95);
-}
-
-.modal-content {
-    background: #151515;
-    margin: 5% auto;
-    padding: 40px;
-    width: 90%;
-    max-width: 900px;
-    border-radius: 20px;
-    position: relative;
-    border: 1px solid #333;
-}
-
-.close {
-    position: absolute;
-    right: 25px;
-    top: 15px;
-    color: #777;
-    font-size: 35px;
-    cursor: pointer;
-}
-
-.close:hover {
-    color: white;
-}
-
-.modal-flex {
-    display: flex;
-    gap: 40px;
-    align-items: center;
-}
-
-.modal-img {
-    width: 55%;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
-
-.modal-info h2 {
-    font-size: 32px;
-    margin-bottom: 10px;
-}
-
-.modal-info p {
-    margin-bottom: 12px;
-    color: #bbb;
-    font-size: 16px;
-}
-
-.modal-info b {
-    color: #fff;
-}
-
-/* ადაპტაცია პატარა ეკრანებისთვის */
-@media (max-width: 768px) {
-    .navbar { padding: 15px 5%; }
-    .hero h1 { font-size: 35px; }
-    .input-group { flex-direction: column; gap: 0; }
-    .modal-flex { flex-direction: column; text-align: center; }
-    .modal-img, .modal-info { width: 100%; }
-    .pop-grid { grid-template-columns: 1fr; }
-}
+@media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; } .hero h1 { font-size: 32px; } }
