@@ -19,8 +19,7 @@
     </header>
 
     <div class="search-container" style="margin-top: 100px; text-align: center;">
-        <h2 style="margin-bottom: 15px;">მოძებნე ავტომობილი</h2>
-        <input type="text" id="searchInput" class="search-bar" placeholder="მაგ: BMW, Mercedes...">
+        <input type="text" id="searchInput" class="search-bar" placeholder="მოძებნე მოდელი...">
     </div>
 
     <main class="container">
@@ -42,53 +41,40 @@
 
         const carList = document.getElementById('carList');
         const searchInput = document.getElementById('searchInput');
-
-        // ადმინ რეჟიმის შემოწმება ლინკიდან
-        const urlParams = new URLSearchParams(window.location.search);
-        const isAdmin = urlParams.get('admin') === '123';
+        const isAdmin = new URLSearchParams(window.location.search).get('admin') === '123';
 
         let allCars = [];
 
-        // მონაცემების წაკითხვა
         onValue(ref(db, 'cars'), (snap) => {
-            const data = snap.val();
-            allCars = data ? Object.entries(data) : [];
+            allCars = snap.val() ? Object.entries(snap.val()) : [];
             render(allCars);
         });
 
-        // ძებნის ფუნქცია
         searchInput.addEventListener('input', (e) => {
             const term = e.target.value.toLowerCase();
             const filtered = allCars.filter(([id, car]) => car.model.toLowerCase().includes(term));
             render(filtered);
         });
 
-        // მანქანების გამოჩენის ფუნქცია
         function render(cars) {
             carList.innerHTML = "";
             cars.forEach(([id, car]) => {
                 const card = document.createElement('div');
                 card.className = 'car-card';
                 card.innerHTML = `
-                    <div class="car-img" style="background-image: url('${car.image}'); background-size: cover; background-position: center; height: 200px;"></div>
+                    <div class="car-img" style="background-image: url('${car.image}'); background-size: cover; background-position: center; height: 200px; width: 100%;"></div>
                     <div class="car-details">
                         <h3>${car.model}</h3>
                         <p class="car-price">${car.price} $</p>
-                        <p style="font-size: 13px; color: #888;">📞 ${car.phone || 'N/A'} | ⚙️ ${car.condition || 'N/A'}</p>
-                        ${isAdmin ? `<button class="delete-btn" data-id="${id}" style="margin-top:10px; border:1px solid #ff3e3e; color:#ff3e3e; background:none; padding:5px; width:100%; cursor:pointer; border-radius:5px;">წაშლა</button>` : ''}
+                        <p style="font-size: 13px; color: #888;">📞 ${car.phone} | ⚙️ ${car.condition}</p>
+                        ${isAdmin ? `<button class="admin-del" data-id="${id}">წაშლა</button>` : ''}
                     </div>`;
                 carList.appendChild(card);
             });
 
-            // წაშლის ღილაკების ფუნქცია
-            if (isAdmin) {
-                document.querySelectorAll('.delete-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const carId = e.target.getAttribute('data-id');
-                        if (confirm('ნამდვილად გსურთ წაშლა?')) {
-                            remove(ref(db, `cars/${carId}`));
-                        }
-                    });
+            if(isAdmin) {
+                document.querySelectorAll('.admin-del').forEach(b => b.onclick = (e) => {
+                    if(confirm('წავშალოთ?')) remove(ref(db, `cars/${e.target.dataset.id}`));
                 });
             }
         }
