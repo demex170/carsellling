@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="ka" data-theme="dark">
+<html lang="ka">
 <head>
     <meta charset="UTF-8">
     <title>კატალოგი</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <nav class="navbar">
@@ -16,47 +15,12 @@
     </nav>
 
     <main class="container">
-        <h2 class="section-title">ავტო კატალოგი</h2>
-        <div class="car-grid" id="catGrid"></div>
+        <h2 class="section-title">ყველა განცხადება</h2>
+        <div id="catGrid" class="car-grid"></div>
     </main>
 
-    <div id="detModal" class="full-modal">
-        <div class="modal-box" style="max-width:700px">
-            <span class="close-modal" onclick="closeDet()">&times;</span>
-            <div id="detContent"></div>
-        </div>
-    </div>
-
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
-        const config = {
-            apiKey: "AIzaSyCx2sZJQqP8ni_dz9fuhJwKWJrHnKRjGdE",
-            databaseURL: "https://automarket-2026-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "automarket-2026",
-            appId: "1:689194639330:web:db854d0dbfddded899a3bb"
-        };
-        const app = initializeApp(config);
-        const db = getDatabase(app);
-
-        onValue(ref(db, 'cars'), s => {
-            const data = s.val();
-            const grid = document.getElementById('catGrid');
-            if(!data) return;
-            grid.innerHTML = Object.entries(data).map(([id, c]) => `
-                <div class="car-card" onclick="showDet('${c.model}', '${c.price}', '${c.phone}', '${c.image}')">
-                    <div class="car-img" style="background-image:url('${c.image}')"></div>
-                    <div class="car-details"><h3>${c.model}</h3><p class="car-price">${c.price} $</p></div>
-                </div>
-            `).join('');
-        });
-
-        window.showDet = (m, p, t, i) => {
-            document.getElementById('detContent').innerHTML = `<img src="${i}" style="width:100%; border-radius:10px"><h2>${m}</h2><h1 style="color:var(--accent)">${p} $</h1><p>ტელეფონი: ${t}</p><a href="https://wa.me/${t}" class="wa-btn" target="_blank">WhatsApp</a>`;
-            document.getElementById('detModal').style.display = "flex";
-        };
-        window.closeDet = () => { document.getElementById('detModal').style.display = "none"; };
+        // აქ Firebase კოდი ჩაწერე როგორც წინა ვარიანტებში გვქონდა
     </script>
 </body>
 </html>
