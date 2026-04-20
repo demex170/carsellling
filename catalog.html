@@ -21,7 +21,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const config = {
             apiKey: "AIzaSyCx2sZJQqP8ni_dz9fuhJwKWJrHnKRjGdE",
@@ -33,20 +33,44 @@
         const db = getDatabase(app);
         const grid = document.getElementById('catGrid');
 
+        // ადმინის შემოწმება URL-ში (?admin=123)
+        const params = new URLSearchParams(window.location.search);
+        const isAdmin = params.get('admin') === '123';
+
+        // წაშლის ფუნქცია
+        window.deleteCar = (id) => {
+            if(confirm("ნამდვილად გსურთ ამ განცხადების წაშლა?")) {
+                remove(ref(db, 'cars/' + id))
+                .then(() => alert("წაიშალა!"))
+                .catch((err) => alert("შეცდომა: " + err));
+            }
+        };
+
         onValue(ref(db, 'cars'), (snap) => {
             const data = snap.val();
             grid.innerHTML = ""; 
-            if(!data) return;
+            if(!data) {
+                grid.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>განცხადებები არ არის</p>";
+                return;
+            }
             
-            // სორტირება დროს მიხედვით (ახალი პირველი)
-            Object.values(data).sort((a,b) => b.timestamp - a.timestamp).forEach(car => {
+            // ობიექტის გასაღებების მიხედვით გამოტანა
+            Object.keys(data).reverse().forEach(id => {
+                const car = data[id];
+                
+                // წაშლის ღილაკი მხოლოდ მაშინ, თუ isAdmin არის true
+                const adminTools = isAdmin ? `<button class="delete-btn" onclick="deleteCar('${id}')">წაშლა</button>` : "";
+
                 grid.innerHTML += `
                     <div class="car-card">
-                        <div class="car-img" style="background-image:url('${car.image}')"><div class="overlay">ნახვა</div></div>
+                        <div class="car-img" style="background-image:url('${car.image}')">
+                            <div class="overlay">ნახვა</div>
+                        </div>
                         <div class="car-details">
                             <h3>${car.model}</h3>
                             <p class="car-price">${car.price} $</p>
-                            <p style="color:#777; font-size:14px; margin-top:5px;">${car.phone}</p>
+                            <p style="color:#777; font-size:13px; margin-top:5px;">${car.phone}</p>
+                            ${adminTools}
                         </div>
                     </div>
                 `;
