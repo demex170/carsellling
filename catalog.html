@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AutoMarket | კატალოგი</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <header>
@@ -18,7 +19,8 @@
     </header>
 
     <div class="search-container" style="margin-top: 100px; text-align: center;">
-        <input type="text" id="searchInput" class="search-bar" placeholder="მოძებნე მოდელი...">
+        <h2 style="margin-bottom: 15px;">მოძებნე ავტომობილი</h2>
+        <input type="text" id="searchInput" class="search-bar" placeholder="მაგ: BMW, Mercedes...">
     </div>
 
     <main class="container">
@@ -27,7 +29,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCx2sZJQqP8ni_dz9fuhJwKWJrHnKRjGdE",
@@ -40,32 +42,55 @@
 
         const carList = document.getElementById('carList');
         const searchInput = document.getElementById('searchInput');
+
+        // ადმინ რეჟიმის შემოწმება ლინკიდან
+        const urlParams = new URLSearchParams(window.location.search);
+        const isAdmin = urlParams.get('admin') === '123';
+
         let allCars = [];
 
+        // მონაცემების წაკითხვა
         onValue(ref(db, 'cars'), (snap) => {
-            allCars = snap.val() ? Object.entries(snap.val()) : [];
+            const data = snap.val();
+            allCars = data ? Object.entries(data) : [];
             render(allCars);
         });
 
+        // ძებნის ფუნქცია
         searchInput.addEventListener('input', (e) => {
             const term = e.target.value.toLowerCase();
             const filtered = allCars.filter(([id, car]) => car.model.toLowerCase().includes(term));
             render(filtered);
         });
 
+        // მანქანების გამოჩენის ფუნქცია
         function render(cars) {
             carList.innerHTML = "";
             cars.forEach(([id, car]) => {
-                carList.innerHTML += `
-                    <div class="car-card">
-                        <div class="car-img" style="background-image: url('${car.image}'); background-size: cover; background-position: center; height: 200px;"></div>
-                        <div class="car-details">
-                            <h3>${car.model}</h3>
-                            <p class="car-price">${car.price} $</p>
-                            <p style="font-size: 13px; color: #888;">📞 ${car.phone} | ⚙️ ${car.condition}</p>
-                        </div>
+                const card = document.createElement('div');
+                card.className = 'car-card';
+                card.innerHTML = `
+                    <div class="car-img" style="background-image: url('${car.image}'); background-size: cover; background-position: center; height: 200px;"></div>
+                    <div class="car-details">
+                        <h3>${car.model}</h3>
+                        <p class="car-price">${car.price} $</p>
+                        <p style="font-size: 13px; color: #888;">📞 ${car.phone || 'N/A'} | ⚙️ ${car.condition || 'N/A'}</p>
+                        ${isAdmin ? `<button class="delete-btn" data-id="${id}" style="margin-top:10px; border:1px solid #ff3e3e; color:#ff3e3e; background:none; padding:5px; width:100%; cursor:pointer; border-radius:5px;">წაშლა</button>` : ''}
                     </div>`;
+                carList.appendChild(card);
             });
+
+            // წაშლის ღილაკების ფუნქცია
+            if (isAdmin) {
+                document.querySelectorAll('.delete-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const carId = e.target.getAttribute('data-id');
+                        if (confirm('ნამდვილად გსურთ წაშლა?')) {
+                            remove(ref(db, `cars/${carId}`));
+                        }
+                    });
+                });
+            }
         }
     </script>
 </body>
