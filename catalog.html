@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoMarket | კატალოგი</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">AUTO<span>MARKET</span></div>
+            <ul class="nav-links">
+                <li><a href="index.html">მთავარი</a></li>
+                <li><a href="catalog.html">კატალოგი</a></li>
+                <li><a href="index.html#sell" class="btn-sell">გაყიდე მანქანა</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container" style="padding-top: 100px;">
+        <h1 style="text-align: center; margin-bottom: 40px;">ავტომობილების კატალოგი</h1>
+        <div id="catalogGrid" class="car-grid"></div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCx2sZJQqP8ni_dz9fuhJwKWJrHnKRjGdE",
+            databaseURL: "https://automarket-2026-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "automarket-2026",
+            appId: "1:689194639330:web:db854d0dbfddded899a3bb"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        onValue(ref(db, 'cars'), (snapshot) => {
+            const grid = document.getElementById('catalogGrid');
+            grid.innerHTML = "";
+            const data = snapshot.val();
+            if(data) {
+                Object.values(data).reverse().forEach(car => {
+                    grid.innerHTML += `
+                        <div class="car-card">
+                            <div class="car-img" style="background-image: url('${car.image}')"></div>
+                            <div class="car-details">
+                                <h3>${car.model} (${car.year})</h3>
+                                <p class="car-price">$${car.price}</p>
+                                <div class="car-specs">
+                                    <span>📍 ${car.mileage} კმ</span>
+                                    <span>⛽ ${car.fuel}</span>
+                                    <span>🛠️ ${car.condition}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+        });
+    </script>
+</body>
+</html>
