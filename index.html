@@ -2,7 +2,7 @@
 <html lang="ka">
 <head>
     <meta charset="UTF-8">
-    <title>AutoMarket | მთავარი</title>
+    <title>AutoMarket | Premium</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,106 +16,77 @@
         </ul>
     </nav>
 
-    <section class="hero">
+    <header class="hero">
         <h1>AUTO<span>MARKET</span></h1>
         <p>საქართველოს ახალი ყიდვა-გაყიდვის ვებ-გვერდი</p>
-    </section>
+    </header>
 
-    <main class="container">
-        <h2 class="section-title">პოპულარული მოდელები</h2>
+    <div class="container">
+        <h2 class="section-title">პოპულარული <span>მოდელები</span></h2>
         <div class="car-grid">
             
             <div class="car-card">
-                <div class="car-img" style="background-image:url('w218.jpg')">
+                <div class="car-img" style="background-image:url('w211.jpg')">
                     <div class="overlay">
-                        <h4>W218 CLS</h4>
-                        <p>დაათვალიერე დეტალურად</p>
+                        <h4>Mercedes W211</h4>
+                        <p>იხილეთ დეტალები</p>
                     </div>
                 </div>
-                <div class="car-details"><h3>Mercedes CLS</h3><p class="car-price">35,000 $</p></div>
+                <div class="car-details">
+                    <h3>Mercedes-Benz E-Class</h3>
+                    <p class="car-price">18,000 $</p>
+                </div>
             </div>
 
             <div class="car-card">
                 <div class="car-img" style="background-image:url('e60.jpg')">
                     <div class="overlay">
                         <h4>BMW M5 E60</h4>
-                        <p>V10 ძრავი</p>
+                        <p>ლეგენდარული V10</p>
                     </div>
                 </div>
-                <div class="car-details"><h3>BMW M5 E60</h3><p class="car-price">28,000 $</p></div>
+                <div class="car-details">
+                    <h3>BMW M5 E60</h3>
+                    <p class="car-price">28,000 $</p>
+                </div>
             </div>
 
             <div class="car-card">
-                <div class="car-img" style="background-image:url('w211.jpg')">
+                <div class="car-img" style="background-image:url('w218.jpg')">
                     <div class="overlay">
-                        <h4>Mercedes W211</h4>
-                        <p>E-Class Premium</p>
+                        <h4>Mercedes W218</h4>
+                        <p>CLS 63 AMG</p>
                     </div>
                 </div>
-                <div class="car-details"><h3>Mercedes W211</h3><p class="car-price">18,000 $</p></div>
-            </div>
-
-            <div class="car-card">
-                <div class="car-img" style="background-image:url('m4.jpg')">
-                    <div class="overlay">
-                        <h4>BMW M4 G82</h4>
-                        <p>2022 მოდელი</p>
-                    </div>
+                <div class="car-details">
+                    <h3>Mercedes CLS W218</h3>
+                    <p class="car-price">35,000 $</p>
                 </div>
-                <div class="car-details"><h3>BMW M4 G82</h3><p class="car-price">75,000 $</p></div>
             </div>
 
-            <div class="car-card">
-                <div class="car-img" style="background-image:url('bugatti.jpg')">
-                    <div class="overlay">
-                        <h4>Bugatti</h4>
-                        <p>Hypercar</p>
-                    </div>
-                </div>
-                <div class="car-details"><h3>Bugatti La Voiture</h3><p class="car-price">18,000,000 $</p></div>
             </div>
-
-            <div class="car-card">
-                <div class="car-img" style="background-image:url('porsche.jpg')">
-                    <div class="overlay">
-                        <h4>Porsche 911</h4>
-                        <p>GT3 RS</p>
-                    </div>
-                </div>
-                <div class="car-details"><h3>Porsche 911 GT3</h3><p class="car-price">350,000 $</p></div>
-            </div>
-
-            <div class="car-card">
-                <div class="car-img" style="background-image:url('w219.jpg')">
-                    <div class="overlay">
-                        <h4>Mercedes W219</h4>
-                        <p>CLS Classic</p>
-                    </div>
-                </div>
-                <div class="car-details"><h3>Mercedes W219</h3><p class="car-price">15,000 $</p></div>
-            </div>
-
-        </div>
-    </main>
+    </div>
 
     <div id="aboutModal" class="full-modal">
         <div class="modal-box">
-            <span class="close-modal" onclick="toggleModal('aboutModal')">&times;</span>
-            <h2 style="color:var(--accent); text-align: center;">ჩვენს შესახებ</h2>
-            <p style="margin-top:20px; text-align: center; color:#ccc;">AutoMarket არის თანამედროვე პლატფორმა, რომელიც აადვილებს ავტომობილების ყიდვა-გაყიდვის პროცესს საქართველოში.</p>
+            <h2 style="text-align: center; margin-bottom: 20px;">ჩვენს <span>შესახებ</span></h2>
+            <p style="color: #888; text-align: center; line-height: 1.8;">
+                ჩვენი პლატფორმა გთავაზობთ უსწრაფეს გზას ავტომობილის შესაძენად. 
+                თუ გაქვთ ხარვეზი, მოგვწერეთ: <strong>support@automarket.ge</strong>
+            </p>
+            <button class="submit-btn" onclick="toggleModal('aboutModal')">დახურვა</button>
         </div>
     </div>
 
     <div id="sellModal" class="full-modal">
         <div class="modal-box">
-            <span class="close-modal" onclick="toggleModal('sellModal')">&times;</span>
-            <h2>მანქანის დამატება</h2>
+            <h2>გაყიდე <span>მანქანა</span></h2>
             <form id="sellForm">
-                <input type="text" id="mModel" placeholder="მოდელი" required>
-                <input type="number" id="mYear" placeholder="წელი" required>
+                <input type="text" id="mModel" placeholder="მოდელი (მაგ: BMW M5)" required>
+                <input type="number" id="mYear" placeholder="გამოშვების წელი" required>
                 <input type="number" id="mPrice" placeholder="ფასი ($)" required>
-                <input type="tel" id="mPhone" placeholder="ტელეფონი" required>
-                <input type="file" id="mFile" accept="image/*" required>
+                <input type="tel" id="mPhone" placeholder="ტელეფონის ნომერი" required>
+                <input type="file" id="mFile" required>
                 <button type="submit" id="subBtn" class="submit-btn" disabled>განთავსება</button>
             </form>
         </div>
@@ -126,8 +97,7 @@
             const m = document.getElementById(id);
             m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
         }
-        
-        // სურათის ატვირთვის ლოგიკა და Firebase იგივე რჩება...
+        // აქ Firebase-ის და ImgBB-ის კოდი იგივე რჩება
     </script>
 </body>
 </html>
