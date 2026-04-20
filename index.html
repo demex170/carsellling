@@ -28,38 +28,17 @@
         </div>
     </section>
 
-    <section id="popular" class="popular-cars">
+    <section class="popular-cars">
         <div class="container">
             <h2 class="section-title">პოპულარული მოდელები</h2>
             <div class="pop-grid">
-                <div class="pop-card">
-                    <div class="pop-img" style="background-image: url('cls.jpg');"></div>
-                    <div class="pop-info"><h3>Mercedes-Benz CLS W218</h3><div class="pop-specs"><span><i class="fa fa-horse"></i> 408+ HP</span></div></div>
-                </div>
-                <div class="pop-card">
-                    <div class="pop-img" style="background-image: url('m5.jpg');"></div>
-                    <div class="pop-info"><h3>BMW M5 E60</h3><div class="pop-specs"><span><i class="fa fa-tachometer-alt"></i> 5.0L V10</span></div></div>
-                </div>
-                <div class="pop-card">
-                    <div class="pop-img" style="background-image: url('m4.jpg');"></div>
-                    <div class="pop-info"><h3>BMW M4 Competition</h3><div class="pop-specs"><span><i class="fa fa-bolt"></i> 510 HP</span></div></div>
-                </div>
-                <div class="pop-card">
-                    <div class="pop-img" style="background-image: url('bugatti.jpg');"></div>
-                    <div class="pop-info"><h3>Bugatti La Voiture Noire</h3><div class="pop-specs"><span><i class="fa fa-gem"></i> Unique</span></div></div>
-                </div>
-                <div class="pop-card">
-                    <div class="pop-img" style="background-image: url('w219.jpg');"></div>
-                    <div class="pop-info"><h3>Mercedes-Benz CLS W219</h3><div class="pop-specs"><span><i class="fa fa-car"></i> AMG Line</span></div></div>
-                </div>
-                <div class="pop-card">
-                    <div class="pop-img" style="background-image: url('w211.jpg');"></div>
-                    <div class="pop-info"><h3>Mercedes-Benz W211</h3><div class="pop-specs"><span><i class="fa fa-tachometer-alt"></i> E63 AMG</span></div></div>
-                </div>
-                <div class="pop-card">
-                    <div class="pop-img" style="background-image: url('gt3rs.jpg');"></div>
-                    <div class="pop-info"><h3>Porsche 911 GT3 RS</h3><div class="pop-specs"><span><i class="fa fa-crown"></i> 525 HP</span></div></div>
-                </div>
+                <div class="pop-card"><div class="pop-img" style="background-image: url('cls.jpg');"></div><div class="pop-info"><h3>Mercedes CLS W218</h3></div></div>
+                <div class="pop-card"><div class="pop-img" style="background-image: url('m5.jpg');"></div><div class="pop-info"><h3>BMW M5 E60</h3></div></div>
+                <div class="pop-card"><div class="pop-img" style="background-image: url('m4.jpg');"></div><div class="pop-info"><h3>BMW M4 Competition</h3></div></div>
+                <div class="pop-card"><div class="pop-img" style="background-image: url('bugatti.jpg');"></div><div class="pop-info"><h3>Bugatti La Voiture Noire</h3></div></div>
+                <div class="pop-card"><div class="pop-img" style="background-image: url('w219.jpg');"></div><div class="pop-info"><h3>Mercedes CLS W219</h3></div></div>
+                <div class="pop-card"><div class="pop-img" style="background-image: url('w211.jpg');"></div><div class="pop-info"><h3>Mercedes W211 E63</h3></div></div>
+                <div class="pop-card"><div class="pop-img" style="background-image: url('gt3rs.jpg');"></div><div class="pop-info"><h3>Porsche 911 GT3 RS</h3></div></div>
             </div>
         </div>
     </section>
@@ -70,7 +49,7 @@
             <div class="about-grid">
                 <div class="about-info">
                     <h2>ჩვენს შესახებ</h2>
-                    <p>აქ ჩაწერე შენი საიტის ისტორია და მიზნები...</p>
+                    <p>AutoMarket არის თანამედროვე პლატფორმა, რომელიც აკავშირებს ავტომოყვარულებს. აქ შეგიძლიათ განათავსოთ განცხადება უფასოდ.</p>
                 </div>
                 <div class="contact-admin">
                     <h3>ადმინისტრაციასთან კავშირი</h3>
@@ -80,7 +59,7 @@
                             <option value="REPORT">რეპორტი</option>
                             <option value="ISSUE">პრობლემის შეტყობინება</option>
                         </select>
-                        <textarea name="message" rows="4" placeholder="აღწერეთ პრობლემა..." required></textarea>
+                        <textarea name="message" rows="4" placeholder="აღწერეთ დეტალურად..." required></textarea>
                         <button type="submit" class="submit-btn">გაგზავნა</button>
                     </form>
                 </div>
@@ -91,22 +70,19 @@
     <div id="sellModal" class="full-modal">
         <div class="modal-box small-modal">
             <span class="close-modal" onclick="toggleModal('sellModal')">&times;</span>
-            <h2>მანქანის გაყიდვა</h2>
+            <h2>განცხადების დამატება</h2>
             <form id="carForm">
-                <div class="field"><label>მარკა და მოდელი</label><input type="text" id="model" placeholder="მაგ: BMW M5 F90" required></div>
+                <div class="field"><label>მოდელი</label><input type="text" id="model" required></div>
                 <div class="field"><label>ფასი ($)</label><input type="number" id="price" required></div>
-                <div class="field"><label>ტელეფონის ნომერი</label><input type="tel" id="phone" placeholder="599-XX-XX-XX" required></div>
+                <div class="field"><label>ტელეფონი</label><input type="tel" id="phone" placeholder="5xx xx xx xx" required></div>
                 <div class="field"><label>მდგომარეობა</label>
                     <select id="condition">
                         <option value="ახალი">ახალი</option>
                         <option value="მეორადი">მეორადი</option>
                     </select>
                 </div>
-                <div class="field">
-                    <label>ფოტო</label>
-                    <input type="file" id="imageInput" accept="image/*">
-                    <p id="uploadStatus"></p>
-                </div>
+                <div class="field"><label>ფოტო</label><input type="file" id="imageInput" accept="image/*"></div>
+                <p id="uploadStatus"></p>
                 <button type="submit" id="submitBtn" class="submit-btn" disabled>განთავსება</button>
             </form>
         </div>
@@ -114,7 +90,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, push, set, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCx2sZJQqP8ni_dz9fuhJwKWJrHnKRjGdE",
@@ -126,21 +102,19 @@
         const db = getDatabase(app);
 
         window.toggleModal = (id) => {
-            const modal = document.getElementById(id);
-            modal.style.display = (modal.style.display === "flex") ? "none" : "flex";
+            const m = document.getElementById(id);
+            m.style.display = (m.style.display === "flex") ? "none" : "flex";
         };
 
-        let uploadedImageUrl = "";
+        let imgUrl = "";
         document.getElementById('imageInput').addEventListener('change', async (e) => {
             const file = e.target.files[0];
-            if (!file) return;
             document.getElementById('uploadStatus').innerText = "იტვირთება...";
-            const formData = new FormData();
-            formData.append('image', file);
-            const res = await fetch('https://api.imgbb.com/1/upload?key=288f0f93fa8f453cc70cb272d0e7480f', { method: 'POST', body: formData });
-            const data = await res.json();
-            if(data.success) {
-                uploadedImageUrl = data.data.url;
+            const fd = new FormData(); fd.append('image', file);
+            const res = await fetch('https://api.imgbb.com/1/upload?key=288f0f93fa8f453cc70cb272d0e7480f', {method:'POST', body:fd});
+            const d = await res.json();
+            if(d.success) {
+                imgUrl = d.data.url;
                 document.getElementById('uploadStatus').innerText = "✅ მზადაა";
                 document.getElementById('submitBtn').disabled = false;
             }
@@ -153,8 +127,7 @@
                 price: document.getElementById('price').value,
                 phone: document.getElementById('phone').value,
                 condition: document.getElementById('condition').value,
-                image: uploadedImageUrl,
-                date: new Date().toLocaleDateString()
+                image: imgUrl
             }).then(() => window.location.href = "catalog.html");
         });
     </script>
