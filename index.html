@@ -3,133 +3,311 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoMarket | მთავარი</title>
-    <link rel="stylesheet" href="style.css">
+    <title>AutoMarket Premium | All-In-One</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0b0b0b;
+            --card: #151515;
+            --text: #fff;
+            --border: #222;
+            --accent: #ff3e3e;
+        }
+
+        [data-theme="light"] {
+            --bg: #f4f4f4;
+            --card: #fff;
+            --text: #111;
+            --border: #ddd;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: var(--bg); color: var(--text); transition: 0.3s; overflow-x: hidden; }
+        .container { max-width: 1200px; margin: auto; padding: 0 20px; }
+
+        /* Navbar */
+        .navbar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 8%; background: #000; border-bottom: 1px solid var(--border);
+            position: fixed; width: 100%; top: 0; z-index: 1000;
+        }
+        .logo span { color: var(--accent); font-weight: bold; }
+        .nav-links { list-style: none; display: flex; align-items: center; }
+        .nav-links li { margin-left: 20px; }
+        .nav-links a { color: #fff; text-decoration: none; font-size: 14px; cursor: pointer; }
+        .theme-toggle { cursor: pointer; color: var(--accent); font-size: 18px; margin-right: 15px; }
+        .btn-sell { background: var(--accent); padding: 8px 15px; border-radius: 5px; font-weight: bold; color: white !important; }
+
+        /* Hero */
+        .hero {
+            height: 50vh; margin-top: 60px;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1500&q=80');
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+        }
+
+        /* Titles */
+        .section-title { text-align: center; margin: 60px 0 30px; font-size: 32px; text-transform: uppercase; letter-spacing: 2px; }
+        .section-title::after { content: ''; display: block; width: 60px; height: 4px; background: var(--accent); margin: 10px auto; }
+
+        /* GRID SYSTEM - აქ გასწორდა არევის პრობლემა */
+        .car-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .car-card {
+            background: var(--card); border-radius: 15px; overflow: hidden; border: 1px solid var(--border);
+            position: relative; cursor: pointer; transition: 0.4s; display: flex; flex-direction: column;
+        }
+        .car-card:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 10px 30px rgba(255,62,62,0.3); }
+
+        .car-img { height: 220px; background-size: cover; background-position: center; position: relative; width: 100%; }
+
+        /* Overlay Animation */
+        .overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); opacity: 0; display: flex; flex-direction: column;
+            justify-content: center; padding: 20px; transition: 0.3s;
+        }
+        .car-card:hover .overlay { opacity: 1; }
+        .overlay ul { list-style: none; font-size: 13px; color: #ccc; }
+        .overlay li { margin-bottom: 8px; }
+        .overlay strong { color: var(--accent); }
+
+        .car-details { padding: 20px; text-align: center; flex-grow: 1; }
+        .car-price { color: var(--accent); font-size: 24px; font-weight: bold; margin-top: 10px; }
+
+        /* Calculator */
+        .calc-box { background: var(--card); border: 1px solid var(--border); padding: 40px; border-radius: 20px; margin-bottom: 60px; }
+        .calc-grid { display: grid; grid-template-columns: 1fr 1fr auto; gap: 15px; align-items: end; }
+
+        /* Filters */
+        .filters { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 15px; margin-bottom: 40px; padding-top: 40px; }
+        input, select { width: 100%; padding: 12px; background: var(--card); border: 1px solid var(--border); color: var(--text); border-radius: 10px; outline: none; }
+
+        /* Modals */
+        .full-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(8px);
+        }
+        .modal-box { background: var(--card); padding: 30px; border-radius: 20px; width: 90%; max-width: 500px; position: relative; border: 1px solid var(--border); }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 30px; cursor: pointer; }
+
+        .submit-btn { background: var(--accent); color: white; border: none; padding: 12px; border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; }
+        .wa-btn { background: #25d366; color: white; text-decoration: none; display: block; text-align: center; padding: 10px; border-radius: 10px; margin-top: 10px; font-weight: bold; }
+
+        .vip-card { border: 2px solid var(--accent) !important; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 rgba(255,62,62,0); } 50% { box-shadow: 0 0 20px rgba(255,62,62,0.4); } 100% { box-shadow: 0 0 0 rgba(255,62,62,0); } }
+
+        @media (max-width: 768px) { .calc-grid, .filters { grid-template-columns: 1fr; } }
+    </style>
 </head>
 <body>
+
     <header>
         <nav class="navbar">
             <div class="logo">AUTO<span>MARKET</span></div>
             <ul class="nav-links">
-                <li><a href="index.html">მთავარი</a></li>
-                <li><a href="catalog.html">კატალოგი</a></li>
+                <li><a onclick="showPage('home')">მთავარი</a></li>
+                <li><a onclick="showPage('catalog')">კატალოგი</a></li>
                 <li><i class="fas fa-moon theme-toggle" id="themeBtn"></i></li>
                 <li><a onclick="toggleModal('sellModal')" class="btn-sell">გაყიდე</a></li>
             </ul>
         </nav>
     </header>
 
-    <section class="hero">
-        <h1>იპოვე შენი საოცნებო ავტომობილი</h1>
-        <div class="live-stats">ბაზაშია: <span id="carCount">0</span> მანქანა</div>
-    </section>
+    <div id="homePage">
+        <section class="hero">
+            <h1>ავტომობილების პრემიუმ მარკეტი</h1>
+            <p style="margin-top:10px">ბაზაში დამატებულია: <span id="count" style="color:var(--accent); font-weight:bold">0</span> განცხადება</p>
+        </section>
 
-    <main class="container">
-        <h2 class="section-title">პოპულარული მოდელები</h2>
-        <div class="car-grid">
-            <script>
-                const popData = [
-                    {m: "Mercedes CLS W218", p: "35,000", i: "cls.jpg", d: "4.7L V8 Biturbo"},
-                    {m: "BMW M5 E60", p: "28,000", i: "m5.jpg", d: "5.0L V10 S85"},
-                    {m: "BMW M4 G82", p: "75,000", i: "m4.jpg", d: "3.0L S58"},
-                    {m: "Bugatti La Voiture", p: "18,000,000", i: "bugatti.jpg", d: "8.0L W16"},
-                    {m: "Porsche 911 GT3 RS", p: "350,000", i: "gt3rs.jpg", d: "4.0L Flat-6"},
-                    {m: "Mercedes W211 E63", p: "18,000", i: "w211.jpg", d: "6.2L V8 M156"},
-                    {m: "Mercedes CLS W219", p: "15,000", i: "w219.jpg", d: "5.5L V8 AMG"}
-                ];
-                popData.forEach(c => {
-                    document.write(`
-                        <div class="car-card">
-                            <div class="car-img" style="background-image:url('${c.i}')">
-                                <div class="overlay">
-                                    <ul>
-                                        <li><strong>მოდელი:</strong> ${c.m}</li>
-                                        <li><strong>ძრავი:</strong> ${c.d}</li>
-                                        <li><strong>საწვავი:</strong> ბენზინი</li>
-                                    </ul>
+        <main class="container">
+            <h2 class="section-title">პოპულარული მოდელები</h2>
+            <div class="car-grid">
+                <script>
+                    const popularCars = [
+                        {m: "Mercedes CLS W218", p: "35,000", i: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=500", d: "4.7L V8 Biturbo"},
+                        {m: "BMW M5 E60", p: "28,000", i: "https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=500", d: "5.0L V10 S85"},
+                        {m: "BMW M4 G82", p: "75,000", i: "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?q=80&w=500", d: "3.0L Twin-Turbo"},
+                        {m: "Bugatti La Voiture", p: "18,000,000", i: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?q=80&w=500", d: "8.0L W16 Quadturbo"},
+                        {m: "Porsche 911 GT3 RS", p: "350,000", i: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=500", d: "4.0L Flat-6"},
+                        {m: "Mercedes W211 E63", p: "18,000", i: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=500", d: "6.2L V8 AMG"},
+                        {m: "Mercedes CLS W219", p: "15,000", i: "https://images.unsplash.com/photo-1617814076668-8dfc6fe157c7?q=80&w=500", d: "5.5L V8 Biturbo"}
+                    ];
+                    popularCars.forEach(c => {
+                        document.write(`
+                            <div class="car-card">
+                                <div class="car-img" style="background-image:url('${c.i}')">
+                                    <div class="overlay">
+                                        <ul>
+                                            <li><strong>მოდელი:</strong> ${c.m}</li>
+                                            <li><strong>ძრავი:</strong> ${c.d}</li>
+                                            <li><strong>წელი:</strong> 2014-2023</li>
+                                        </ul>
+                                    </div>
                                 </div>
+                                <div class="car-details"><h3>${c.m}</h3><p class="car-price">${c.p} $</p></div>
                             </div>
-                            <div class="car-details"><h3>${c.m}</h3><p class="car-price">${c.p} $</p></div>
-                        </div>
-                    `);
-                });
-            </script>
-        </div>
-
-        <h2 class="section-title">განბაჟების კალკულატორი</h2>
-        <div class="calc-box">
-            <div class="calc-grid">
-                <div><label>გამოშვების წელი</label><input type="number" id="cy" placeholder="2018"></div>
-                <div><label>ძრავის მოცულობა</label><input type="number" id="ce" placeholder="2000"></div>
-                <button class="submit-btn" onclick="calc()">გამოთვლა</button>
+                        `);
+                    });
+                </script>
             </div>
-            <h3 id="cr" style="text-align:center; margin-top:25px; color:var(--accent)"></h3>
-        </div>
-    </main>
+
+            <h2 class="section-title">განბაჟების კალკულატორი</h2>
+            <div class="calc-box">
+                <div class="calc-grid">
+                    <div><label>წელი</label><input type="number" id="yInput" placeholder="2018"></div>
+                    <div><label>ძრავი (სმ³)</label><input type="number" id="eInput" placeholder="2000"></div>
+                    <button class="submit-btn" onclick="calc()">გამოთვლა</button>
+                </div>
+                <h3 id="res" style="text-align:center; margin-top:25px; color:var(--accent)"></h3>
+            </div>
+        </main>
+    </div>
+
+    <div id="catalogPage" style="display:none; margin-top:80px;">
+        <main class="container">
+            <div class="filters">
+                <input type="text" id="srch" placeholder="მოძებნე მოდელი..." oninput="filter()">
+                <select id="pf" onchange="filter()">
+                    <option value="all">ყველა ფასი</option>
+                    <option value="low">20,000$-მდე</option>
+                    <option value="high">20,000$ +</option>
+                </select>
+                <select id="so" onchange="filter()">
+                    <option value="new">უახლესი</option>
+                    <option value="price">ჯერ იაფი</option>
+                </select>
+            </div>
+            <div id="catGrid" class="car-grid"></div>
+        </main>
+    </div>
 
     <div id="sellModal" class="full-modal">
         <div class="modal-box">
             <span class="close-modal" onclick="toggleModal('sellModal')">&times;</span>
-            <h2 style="margin-bottom:20px">განცხადების დამატება</h2>
-            <form id="sellForm">
-                <input type="text" id="sm" placeholder="მოდელი" required style="margin-bottom:10px">
-                <input type="number" id="sp" placeholder="ფასი ($)" required style="margin-bottom:10px">
-                <input type="tel" id="st" placeholder="ტელეფონი" required style="margin-bottom:10px">
-                <input type="file" id="si" accept="image/*" style="margin-bottom:10px">
-                <img id="prev" style="display:none; width:100%; border-radius:10px; margin-bottom:10px">
-                <button type="submit" id="sb" class="submit-btn" disabled>განთავსება</button>
+            <h2>მანქანის დამატება</h2>
+            <form id="carForm">
+                <input type="text" id="m" placeholder="მოდელი" required style="margin-top:15px">
+                <input type="number" id="p" placeholder="ფასი ($)" required style="margin-top:10px">
+                <input type="tel" id="t" placeholder="ტელეფონი" required style="margin-top:10px">
+                <input type="file" id="i" accept="image/*" style="margin-top:10px">
+                <img id="prev" style="display:none; width:100%; border-radius:10px; margin-top:10px">
+                <button type="submit" id="btn" class="submit-btn" disabled>განთავსება</button>
             </form>
         </div>
     </div>
 
+    <div id="detModal" class="full-modal">
+        <div class="modal-box" style="max-width:800px"><span class="close-modal" onclick="toggleModal('detModal')">&times;</span><div id="detContent"></div></div>
+    </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        const firebaseConfig = {
+        const fbConf = {
             apiKey: "AIzaSyCx2sZJQqP8ni_dz9fuhJwKWJrHnKRjGdE",
             databaseURL: "https://automarket-2026-default-rtdb.europe-west1.firebasedatabase.app",
             projectId: "automarket-2026",
             appId: "1:689194639330:web:db854d0dbfddded899a3bb"
         };
-        const app = initializeApp(firebaseConfig);
+        const app = initializeApp(fbConf);
         const db = getDatabase(app);
+        let cars = [];
+        const isAdmin = new URLSearchParams(window.location.search).get('admin') === '123';
 
-        onValue(ref(db, 'cars'), s => { document.getElementById('carCount').innerText = s.val() ? Object.keys(s.val()).length : 0; });
+        onValue(ref(db, 'cars'), s => {
+            cars = s.val() ? Object.entries(s.val()) : [];
+            document.getElementById('count').innerText = cars.length;
+            window.filter();
+        });
 
-        const si = document.getElementById('si');
-        si.onchange = async (e) => {
+        window.showPage = (p) => {
+            document.getElementById('homePage').style.display = p === 'home' ? 'block' : 'none';
+            document.getElementById('catalogPage').style.display = p === 'catalog' ? 'block' : 'none';
+        };
+
+        window.filter = () => {
+            let f = [...cars];
+            const s = document.getElementById('srch').value.toLowerCase();
+            const p = document.getElementById('pf').value;
+            const o = document.getElementById('so').value;
+
+            f = f.filter(([id, c]) => c.model.toLowerCase().includes(s));
+            if(p === 'low') f = f.filter(([id, c]) => c.price <= 20000);
+            if(p === 'high') f = f.filter(([id, c]) => c.price > 20000);
+            if(o === 'price') f.sort((a,b) => a[1].price - b[1].price);
+
+            const grid = document.getElementById('catGrid');
+            grid.innerHTML = f.map(([id, c]) => `
+                <div class="car-card" onclick="showDet('${id}')">
+                    <div class="car-img" style="background-image:url('${c.image}')">
+                        <div class="overlay"><p>ტელ: ${c.phone}</p></div>
+                    </div>
+                    <div class="car-details">
+                        <h3>${c.model}</h3>
+                        <p class="car-price">${c.price} $</p>
+                        ${isAdmin ? `<button onclick="event.stopPropagation(); remove(ref(db, 'cars/${id}'))" style="background:none; border:1px solid red; color:red; padding:5px; width:100%; margin-top:10px; cursor:pointer">წაშლა</button>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        };
+
+        window.showDet = (id) => {
+            const c = cars.find(i => i[0] === id)[1];
+            document.getElementById('detContent').innerHTML = `
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:20px">
+                    <img src="${c.image}" style="width:100%; border-radius:15px">
+                    <div>
+                        <h2>${c.model}</h2>
+                        <h1 style="color:var(--accent); margin:15px 0">${c.price} $</h1>
+                        <p>გამყიდველის ნომერი: <strong>${c.phone}</strong></p>
+                        <a href="tel:${c.phone}" class="submit-btn" style="display:block; text-align:center; text-decoration:none">დარეკვა</a>
+                        <a href="https://wa.me/${c.phone}" class="wa-btn" target="_blank">WhatsApp</a>
+                    </div>
+                </div>
+            `;
+            toggleModal('detModal');
+        };
+
+        const imgInput = document.getElementById('i');
+        imgInput.onchange = async (e) => {
             const file = e.target.files[0];
             document.getElementById('prev').src = URL.createObjectURL(file);
             document.getElementById('prev').style.display = 'block';
             const fd = new FormData(); fd.append('image', file);
             const res = await fetch('https://api.imgbb.com/1/upload?key=288f0f93fa8f453cc70cb272d0e7480f', {method:'POST', body:fd});
             const d = await res.json();
-            if(d.success) { window.u = d.data.url; document.getElementById('sb').disabled = false; }
+            if(d.success) { window.url = d.data.url; document.getElementById('btn').disabled = false; }
         };
 
-        document.getElementById('sellForm').onsubmit = (e) => {
+        document.getElementById('carForm').onsubmit = (e) => {
             e.preventDefault();
             push(ref(db, 'cars'), {
-                model: document.getElementById('sm').value,
-                price: Number(document.getElementById('sp').value),
-                phone: document.getElementById('st').value,
-                image: window.u,
-                isVIP: false,
-                date: new Date().toLocaleDateString()
-            }).then(() => location.href = "catalog.html");
+                model: document.getElementById('m').value,
+                price: Number(document.getElementById('p').value),
+                phone: document.getElementById('t').value,
+                image: window.url,
+                isVIP: false
+            }).then(() => { toggleModal('sellModal'); showPage('catalog'); });
         };
+
+        window.remove = remove; window.ref = ref; window.db = db;
     </script>
 
     <script>
         function toggleModal(id) { const m = document.getElementById(id); m.style.display = m.style.display === 'flex' ? 'none' : 'flex'; }
         function calc() {
-            const y = document.getElementById('cy').value;
-            const e = document.getElementById('ce').value;
+            const y = document.getElementById('yInput').value;
+            const e = document.getElementById('eInput').value;
             if(!y || !e) return;
-            const res = (e * (y > 2022 ? 1.5 : 0.9)).toFixed(0);
-            document.getElementById('cr').innerText = `განბაჟება: ~ ${res} GEL`;
+            const tax = (e * (y > 2022 ? 1.5 : 0.9)).toFixed(0);
+            document.getElementById('res').innerText = `განბაჟება: ~ ${tax} GEL`;
         }
         document.getElementById('themeBtn').onclick = () => {
             const d = document.documentElement;
