@@ -8,10 +8,7 @@
 <body>
     <nav class="navbar">
         <div class="logo">AUTO<span>MARKET</span></div>
-        <ul class="nav-links">
-            <li><a href="index.html">მთავარი</a></li>
-            <li><a href="catalog.html">კატალოგი</a></li>
-        </ul>
+        <ul class="nav-links"><li><a href="index.html">მთავარი</a></li><li><a href="catalog.html">კატალოგი</a></li></ul>
     </nav>
 
     <main class="container">
@@ -31,49 +28,30 @@
         };
         const app = initializeApp(config);
         const db = getDatabase(app);
-        const grid = document.getElementById('catGrid');
-
-        // ადმინის შემოწმება URL-ში (?admin=123)
+        
         const params = new URLSearchParams(window.location.search);
         const isAdmin = params.get('admin') === '123';
 
-        // წაშლის ფუნქცია
-        window.deleteCar = (id) => {
-            if(confirm("ნამდვილად გსურთ ამ განცხადების წაშლა?")) {
-                remove(ref(db, 'cars/' + id))
-                .then(() => alert("წაიშალა!"))
-                .catch((err) => alert("შეცდომა: " + err));
-            }
-        };
+        window.deleteCar = (id) => { if(confirm("წავშალო?")) remove(ref(db, 'cars/'+id)); };
 
         onValue(ref(db, 'cars'), (snap) => {
             const data = snap.val();
-            grid.innerHTML = ""; 
-            if(!data) {
-                grid.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>განცხადებები არ არის</p>";
-                return;
-            }
-            
-            // ობიექტის გასაღებების მიხედვით გამოტანა
+            const grid = document.getElementById('catGrid');
+            grid.innerHTML = "";
+            if(!data) return;
             Object.keys(data).reverse().forEach(id => {
                 const car = data[id];
-                
-                // წაშლის ღილაკი მხოლოდ მაშინ, თუ isAdmin არის true
-                const adminTools = isAdmin ? `<button class="delete-btn" onclick="deleteCar('${id}')">წაშლა</button>` : "";
-
+                const delBtn = isAdmin ? `<button class="delete-btn" onclick="deleteCar('${id}')">წაშლა</button>` : "";
                 grid.innerHTML += `
                     <div class="car-card">
-                        <div class="car-img" style="background-image:url('${car.image}')">
-                            <div class="overlay">ნახვა</div>
-                        </div>
+                        <div class="car-img" style="background-image:url('${car.image}')"></div>
                         <div class="car-details">
                             <h3>${car.model}</h3>
                             <p class="car-price">${car.price} $</p>
-                            <p style="color:#777; font-size:13px; margin-top:5px;">${car.phone}</p>
-                            ${adminTools}
+                            <p style="color:#666; font-size:13px;">${car.phone}</p>
+                            ${delBtn}
                         </div>
-                    </div>
-                `;
+                    </div>`;
             });
         });
     </script>
