@@ -20,7 +20,35 @@
     </main>
 
     <script type="module">
-        // აქ Firebase კოდი ჩაწერე როგორც წინა ვარიანტებში გვქონდა
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const config = {
+            apiKey: "AIzaSyCx2sZJQqP8ni_dz9fuhJwKWJrHnKRjGdE",
+            databaseURL: "https://automarket-2026-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "automarket-2026",
+            appId: "1:689194639330:web:db854d0dbfddded899a3bb"
+        };
+        const app = initializeApp(config);
+        const db = getDatabase(app);
+
+        onValue(ref(db, 'cars'), s => {
+            const data = s.val();
+            const grid = document.getElementById('catGrid');
+            if(!data) { grid.innerHTML = "<h3>ჯერჯერობით განცხადებები არ არის.</h3>"; return; }
+            
+            grid.innerHTML = Object.entries(data).reverse().map(([id, c]) => `
+                <div class="car-card">
+                    <div class="car-img" style="background-image:url('${c.image}')"></div>
+                    <div class="car-details">
+                        <h3>${c.model}</h3>
+                        <p style="font-size:12px; color:#777">${c.fuel || 'ბენზინი'} | ${c.date || ''}</p>
+                        <p class="car-price">${c.price} $</p>
+                        <p style="margin-top:10px; font-weight:bold">${c.phone}</p>
+                    </div>
+                </div>
+            `).join('');
+        });
     </script>
 </body>
 </html>
