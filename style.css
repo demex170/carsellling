@@ -40,10 +40,10 @@ body { background: var(--bg); color: var(--text); padding-top: 80px; }
 .section-title { text-align: center; margin: 50px 0 30px; font-size: 28px; text-transform: uppercase; }
 .car-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; margin-bottom: 60px; }
 
-/* Car Cards */
+/* Cards */
 .car-card { background: var(--card); border-radius: 15px; overflow: hidden; border: 1px solid var(--border); transition: 0.4s; position: relative; cursor: pointer; }
 .car-card:hover { border-color: var(--accent); transform: translateY(-10px); }
-.car-img { width: 100%; height: 210px; background-size: cover; background-position: center; position: relative; }
+.car-img { width: 100%; height: 210px; background-size: cover; background-position: center; }
 .overlay { 
     position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--overlay); 
     display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.4s; color: white; font-weight: bold; 
@@ -56,7 +56,7 @@ body { background: var(--bg); color: var(--text); padding-top: 80px; }
 .full-modal { 
     display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
     background: rgba(0,0,0,0.98); z-index: 2000; align-items: center; justify-content: center; 
-    opacity: 0; transition: opacity 0.3s ease; overflow-y: auto;
+    opacity: 0; transition: opacity 0.3s ease;
 }
 .full-modal.active { display: flex; opacity: 1; }
 .modal-box { 
@@ -64,13 +64,13 @@ body { background: var(--bg); color: var(--text); padding-top: 80px; }
     border: 1px solid var(--border); position: relative; transform: scale(0.8); transition: 0.3s;
 }
 .full-modal.active .modal-box { transform: scale(1); }
-.close-modal { position: absolute; top: 15px; right: 20px; font-size: 25px; cursor: pointer; color: #555; z-index: 10; }
+.close-modal { position: absolute; top: 15px; right: 20px; font-size: 25px; cursor: pointer; color: #555; }
 
-/* Form Elements */
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+/* Forms */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 input, select, textarea { width: 100%; padding: 12px; margin-top: 8px; background: #080808; border: 1px solid #222; color: #fff; border-radius: 10px; outline: none; }
 textarea { height: 90px; resize: none; grid-column: span 2; }
-.submit-btn { background: var(--accent); color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; margin-top: 20px; cursor: pointer; font-weight: bold; font-size: 16px; }
+.submit-btn { background: var(--accent); color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; margin-top: 20px; cursor: pointer; font-weight: bold; }
 .submit-btn:disabled { background: #333; cursor: not-allowed; }
 
 .delete-btn { background: #ff2a2a; color: white; border: none; padding: 8px; width: 100%; border-radius: 8px; margin-top: 10px; cursor: pointer; }
