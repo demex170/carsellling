@@ -16,8 +16,7 @@
 
     <main class="container">
         <h2 class="section-title">ყველა <span>განცხადება</span></h2>
-        <div id="catGrid" class="car-grid">
-            </div>
+        <div id="catGrid" class="car-grid"></div>
     </main>
 
     <script type="module">
@@ -34,20 +33,16 @@
         const db = getDatabase(app);
         const grid = document.getElementById('catGrid');
 
-        // მონაცემების წამოღება
         onValue(ref(db, 'cars'), (snap) => {
             const data = snap.val();
             grid.innerHTML = ""; 
-            if(!data) {
-                grid.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>განცხადებები არ არის</p>";
-                return;
-            }
+            if(!data) return;
             
             Object.values(data).reverse().forEach(car => {
                 grid.innerHTML += `
                     <div class="car-card">
                         <div class="car-img" style="background-image:url('${car.image}')">
-                            <div class="overlay"><h4>${car.model}</h4><p>${car.year} წელი</p></div>
+                            <div class="overlay">ნახვა</div>
                         </div>
                         <div class="car-details">
                             <h3>${car.model}</h3>
