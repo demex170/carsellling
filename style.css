@@ -1,41 +1,82 @@
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-body { background: #0b0b0b; color: white; scroll-behavior: smooth; }
+/* კატალოგის სპეციფიკური სტილები */
+.search-container {
+    margin-top: 120px;
+    text-align: center;
+    padding: 0 20px;
+}
 
-/* Navbar */
-.navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 8%; background: #000; border-bottom: 1px solid #222; position: fixed; width: 100%; top: 0; z-index: 1000; }
-.logo span { color: #ff3e3e; font-weight: bold; }
-.nav-links { list-style: none; display: flex; align-items: center; }
-.nav-links li { margin-left: 20px; }
-.nav-links a { color: white; text-decoration: none; font-size: 14px; }
-.btn-sell { background: #ff3e3e; padding: 8px 15px; border-radius: 5px; font-weight: bold; }
+.search-bar {
+    width: 100%;
+    max-width: 500px;
+    padding: 15px 25px;
+    border-radius: 30px;
+    border: 1px solid #333;
+    background: #1a1a1a;
+    color: white;
+    font-size: 16px;
+    outline: none;
+    transition: 0.3s;
+    margin-top: 20px;
+}
 
-/* Hero */
-.hero { height: 60vh; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1500'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; margin-top: 50px; }
-.hero h1 { font-size: 40px; }
+.search-bar:focus {
+    border-color: #ff3e3e;
+    box-shadow: 0 0 15px rgba(255, 62, 62, 0.2);
+}
 
-/* Pop Grid */
-.popular-cars { padding: 60px 0; }
-.section-title { text-align: center; margin-bottom: 40px; font-size: 28px; }
-.pop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 0 5%; }
-.pop-card { background: #151515; border-radius: 10px; overflow: hidden; border: 1px solid #222; transition: 0.3s; }
-.pop-card:hover { border-color: #ff3e3e; transform: translateY(-5px); }
-.pop-img { height: 200px; background-size: cover; background-position: center; }
-.pop-info { padding: 15px; }
-.pop-specs span { background: #222; padding: 5px 10px; border-radius: 4px; font-size: 12px; }
+.car-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 40px 0;
+}
 
-/* Modals */
-.full-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; }
-.modal-box { background: #111; padding: 30px; border-radius: 15px; border: 1px solid #333; width: 90%; max-width: 800px; position: relative; }
-.small-modal { max-width: 500px; }
-.close-modal { position: absolute; top: 15px; right: 20px; font-size: 30px; cursor: pointer; color: #888; }
+.car-card {
+    background: #151515;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #222;
+    transition: 0.3s;
+}
 
-/* Form Elements */
-.field { margin-bottom: 15px; }
-.field label { display: block; font-size: 12px; color: #888; margin-bottom: 5px; }
-input, select, textarea { width: 100%; padding: 10px; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 5px; }
-.submit-btn { background: #ff3e3e; color: white; border: none; padding: 12px; width: 100%; border-radius: 5px; font-weight: bold; cursor: pointer; }
-.submit-btn:disabled { background: #444; }
+.car-card:hover {
+    transform: translateY(-5px);
+}
 
-/* Search Bar (Catalog-ისთვის) */
-.search-container { text-align: center; margin: 100px 0 30px 0; }
-.search-bar { width: 50%; padding: 12px; border-radius: 25px; border: 1px solid #ff3e3e; background: #111; color: white; outline: none; }
+.car-img {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+}
+
+.car-details {
+    padding: 20px;
+}
+
+.car-details h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.car-price {
+    color: #ff3e3e;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.delete-btn {
+    margin-top: 15px;
+    background: none;
+    border: 1px solid #ff3e3e;
+    color: #ff3e3e;
+    padding: 8px;
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background: #ff3e3e;
+    color: white;
+}
