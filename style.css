@@ -1,60 +1,82 @@
-:root { --bg: #0b0b0b; --card: #151515; --text: #fff; --border: #222; --accent: #ff3e3e; }
-[data-theme="light"] { --bg: #f4f4f4; --card: #fff; --text: #111; --border: #ddd; }
+:root {
+    --bg: #0b0b0b;
+    --card: #151515;
+    --text: #fff;
+    --border: #222;
+    --accent: #ff3e3e;
+}
 
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; transition: background 0.3s, color 0.3s; }
-body { background: var(--bg); color: var(--text); }
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+body { background: var(--bg); color: var(--text); padding-top: 80px; }
 .container { max-width: 1200px; margin: auto; padding: 0 20px; }
 
 /* Navbar */
-.navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 8%; background: #000; border-bottom: 1px solid #222; position: fixed; width: 100%; top: 0; z-index: 1000; }
+.navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 8%; background: #000; border-bottom: 1px solid var(--border); position: fixed; width: 100%; top: 0; z-index: 1000; }
 .logo span { color: var(--accent); font-weight: bold; }
 .nav-links { list-style: none; display: flex; align-items: center; }
 .nav-links li { margin-left: 20px; }
-.nav-links a { color: #fff; text-decoration: none; font-size: 14px; }
-.theme-toggle { cursor: pointer; color: var(--accent); font-size: 18px; margin: 0 15px; }
-.btn-sell { background: var(--accent); padding: 8px 15px; border-radius: 5px; font-weight: bold; }
+.nav-links a { color: #fff; text-decoration: none; font-size: 14px; cursor: pointer; transition: 0.3s; }
+.btn-sell { background: var(--accent); padding: 8px 18px; border-radius: 6px; color: white !important; font-weight: bold; border: none; cursor: pointer; }
 
-/* Cards & Overlays */
-.pop-grid, .car-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 40px 0; }
+/* Hero Section */
+.hero {
+    height: 60vh;
+    margin-top: -80px;
+    background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('hero-bg.jpg'); /* აქ შეგიძლია შენი ფონი ჩასვა */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 0 0 40px 40px;
+}
+.hero h1 { font-size: 55px; letter-spacing: 2px; }
+.hero h1 span { color: var(--accent); }
+.hero p { color: #ccc; margin-top: 10px; font-size: 18px; }
 
-.pop-card, .car-card { 
-    background: var(--card); border-radius: 15px; overflow: hidden; border: 1px solid var(--border); 
-    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; 
+/* Car Cards & Overlay */
+.section-title { text-align: center; margin: 50px 0 30px; font-size: 26px; text-transform: uppercase; }
+.car-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; margin-bottom: 50px; }
+.car-card { background: var(--card); border-radius: 15px; overflow: hidden; border: 1px solid var(--border); position: relative; transition: 0.3s; }
+
+.car-img { 
+    width: 100%; 
+    height: 220px; 
+    background-size: cover; 
+    background-position: center; 
+    position: relative; 
 }
 
-.pop-card:hover, .car-card:hover { 
-    transform: scale(1.05); border-color: var(--accent); box-shadow: 0 0 25px rgba(255, 62, 62, 0.3); 
+/* OVER DISPLAY EFFECT */
+.overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(255, 62, 62, 0.85); /* წითელი გამჭვირვალე ფონი */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    opacity: 0;
+    transition: 0.4s ease;
+    color: white;
+    text-align: center;
+    padding: 20px;
 }
 
-.pop-img, .car-img { height: 230px; background-size: cover; background-position: center; position: relative; overflow: hidden; }
+.car-card:hover .overlay { opacity: 1; }
 
-/* Overlay (ანიმაცია კატალოგშიც) */
-.pop-overlay {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.85); display: flex; flex-direction: column;
-    justify-content: center; padding: 20px; opacity: 0; transition: 0.3s ease; color: white;
-}
+.overlay h4 { font-size: 20px; margin-bottom: 5px; }
+.overlay p { font-size: 14px; font-weight: bold; }
 
-.pop-card:hover .pop-overlay, .car-card:hover .pop-overlay { opacity: 1; }
-
-.car-bio { font-size: 13px; color: var(--accent); margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px; }
-.pop-overlay ul { list-style: none; font-size: 12px; }
-.pop-overlay ul li { margin-bottom: 5px; }
-
-/* Favorites & VIP */
-.fav-btn { position: absolute; top: 15px; right: 15px; font-size: 22px; color: var(--accent); cursor: pointer; z-index: 10; text-shadow: 0 0 5px #000; }
-.vip-card { border: 2px solid var(--accent) !important; animation: pulse 2s infinite; }
-@keyframes pulse { 0% { box-shadow: 0 0 0px rgba(255,62,62,0); } 50% { box-shadow: 0 0 20px rgba(255,62,62,0.5); } 100% { box-shadow: 0 0 0px rgba(255,62,62,0); } }
-
-/* Filters */
-.filter-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-.filter-grid input, .filter-grid select { 
-    background: var(--card); color: var(--text); border: 1px solid var(--border); 
-    padding: 12px; border-radius: 10px; outline: none; 
-}
+.car-details { padding: 15px; text-align: center; }
+.car-price { color: var(--accent); font-size: 22px; font-weight: bold; }
 
 /* Modals */
-.full-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(8px); }
-.modal-box { background: var(--card); padding: 30px; border-radius: 20px; border: 1px solid var(--border); width: 90%; max-width: 500px; }
-.submit-btn { background: var(--accent); color: #fff; width: 100%; padding: 12px; border-radius: 10px; border: none; cursor: pointer; font-weight: bold; margin-top: 15px; }
-.submit-btn:disabled { background: #444; cursor: not-allowed; }
+.full-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+.modal-box { background: var(--card); padding: 30px; border-radius: 20px; width: 90%; max-width: 500px; position: relative; border: 1px solid var(--border); }
+.close-modal { position: absolute; top: 10px; right: 20px; font-size: 30px; cursor: pointer; }
+
+input, select { width: 100%; padding: 12px; margin-top: 10px; background: #000; border: 1px solid var(--border); color: #fff; border-radius: 10px; }
+.submit-btn { background: var(--accent); color: #fff; border: none; padding: 15px; width: 100%; border-radius: 10px; cursor: pointer; font-weight: bold; margin-top: 15px; }
