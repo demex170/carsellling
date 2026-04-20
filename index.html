@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="7gnNmpFLTuYDG4OidgkN_LydZ8P175uiK7dJCeB1Ch8" />
-    <meta name="description" content="AutoMarket - საუკეთესო პლატფორმა ავტომობილების შესაძენად და გასაყიდად საქართველოში.">
     <title>AutoMarket | მთავარი</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -16,8 +15,8 @@
             <ul class="nav-links">
                 <li><a href="index.html">მთავარი</a></li>
                 <li><a href="catalog.html">კატალოგი</a></li>
-                <li><a href="#about">ჩვენს შესახებ</a></li>
-                <li><a href="#sell" class="btn-sell">გაყიდე მანქანა</a></li>
+                <li><a href="javascript:void(0)" onclick="toggleModal('aboutModal')">ჩვენს შესახებ</a></li>
+                <li><a href="javascript:void(0)" onclick="toggleModal('sellModal')" class="btn-sell">გაყიდე მანქანა</a></li>
             </ul>
         </nav>
     </header>
@@ -49,7 +48,6 @@
                         <h3>BMW M5 E60</h3>
                         <div class="pop-specs">
                             <span><i class="fa fa-horse"></i> 507 HP</span>
-                            <span><i class="fa fa-tachometer-alt"></i> 5.0L V10</span>
                         </div>
                     </div>
                 </div>
@@ -59,107 +57,53 @@
                         <h3>BMW M4 Competition</h3>
                         <div class="pop-specs">
                             <span><i class="fa fa-horse"></i> 510 HP</span>
-                            <span><i class="fa fa-clock"></i> 3.9s 0-100</span>
                         </div>
                     </div>
                 </div>
-                <div class="pop-card">
-                    <div class="pop-img" style="background-image: url('bugatti.jpg');"></div>
-                    <div class="pop-info">
-                        <h3>Bugatti La Voiture Noire</h3>
-                        <div class="pop-specs">
-                            <span><i class="fa fa-horse"></i> 1500 HP</span>
-                            <span><i class="fa fa-gem"></i> Unique</span>
-                        </div>
-                    </div>
                 </div>
-                <div class="pop-card">
-                    <div class="pop-img" style="background-image: url('w219.jpg');"></div>
-                    <div class="pop-info">
-                        <h3>Mercedes-Benz CLS W219</h3>
-                        <div class="pop-specs">
-                            <span><i class="fa fa-horse"></i> 476 HP</span>
-                            <span><i class="fa fa-car"></i> AMG Line</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="pop-card">
-                    <div class="pop-img" style="background-image: url('w211.jpg');"></div>
-                    <div class="pop-info">
-                        <h3>Mercedes-Benz W211</h3>
-                        <div class="pop-specs">
-                            <span><i class="fa fa-horse"></i> 514 HP</span>
-                            <span><i class="fa fa-tachometer-alt"></i> E63 AMG</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="pop-card">
-                    <div class="pop-img" style="background-image: url('gt3rs.jpg');"></div>
-                    <div class="pop-info">
-                        <h3>Porsche 911 GT3 RS</h3>
-                        <div class="pop-specs">
-                            <span><i class="fa fa-horse"></i> 525 HP</span>
-                            <span><i class="fa fa-tachometer-alt"></i> Nürburgring King</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
-    <section id="about" class="about-section">
-        <div class="container">
+    <div id="aboutModal" class="full-modal">
+        <div class="modal-box">
+            <span class="close-modal" onclick="toggleModal('aboutModal')">&times;</span>
             <div class="about-grid">
                 <div class="about-info">
-                    <h2 class="section-title" style="text-align: left;">ჩვენს შესახებ</h2>
-                    <p id="about-text">
-                        AutoMarket არის ინოვაციური პლატფორმა საქართველოში, რომელიც ავტომოყვარულებს აძლევს საშუალებას მარტივად და სწრაფად გაყიდონ ან შეიძინონ სასურველი მანქანა. ჩვენი მიზანია შევქმნათ გამჭვირვალე და კომფორტული გარემო ავტო-ინდუსტრიის ენთუზიასტებისთვის.
-                    </p>
+                    <h2>ჩვენს შესახებ</h2>
+                    <p>AutoMarket არის ინოვაციური პლატფორმა საქართველოში, რომელიც ავტომოყვარულებს აძლევს საშუალებას მარტივად და სწრაფად გაყიდონ ან შეიძინონ სასურველი მანქანა.</p>
                 </div>
                 <div class="contact-admin">
                     <h3>ადმინისტრაციასთან კავშირი</h3>
                     <form action="https://formspree.io/f/xpqkjawy" method="POST">
-                        <div class="field">
-                            <label>თქვენი მეილი</label>
-                            <input type="email" name="email" placeholder="example@mail.com" required>
-                        </div>
-                        <div class="field">
-                            <label>მიზეზი</label>
-                            <select name="subject">
-                                <option value="REPORT">რეპორტი</option>
-                                <option value="ISSUE">პრობლემის შეტყობინება</option>
-                            </select>
-                        </div>
-                        <div class="field">
-                            <label>შეტყობინება</label>
-                            <textarea name="message" rows="4" placeholder="დაწერეთ დეტალურად..." required></textarea>
-                        </div>
+                        <input type="email" name="email" placeholder="თქვენი მეილი" required>
+                        <select name="subject">
+                            <option value="REPORT">რეპორტი</option>
+                            <option value="ISSUE">პრობლემის შეტყობინება</option>
+                        </select>
+                        <textarea name="message" rows="4" placeholder="შეტყობინება..." required></textarea>
                         <button type="submit" class="submit-btn">გაგზავნა</button>
                     </form>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section id="sell" class="form-section">
-        <div class="container">
-            <div class="form-card">
-                <h2>განცხადების განთავსება</h2>
-                <form id="carForm">
-                    <div class="input-group">
-                        <div class="field"><label>მარკა/მოდელი</label><input type="text" id="model" required></div>
-                        <div class="field"><label>ფასი ($)</label><input type="number" id="price" required></div>
-                    </div>
-                    <div class="field">
-                        <label>ფოტოს ატვირთვა</label>
-                        <input type="file" id="imageInput" accept="image/*">
-                        <p id="uploadStatus"></p>
-                    </div>
-                    <button type="submit" id="submitBtn" class="submit-btn" disabled>განთავსება</button>
-                </form>
-            </div>
+    <div id="sellModal" class="full-modal">
+        <div class="modal-box small-modal">
+            <span class="close-modal" onclick="toggleModal('sellModal')">&times;</span>
+            <h2>განცხადების განთავსება</h2>
+            <form id="carForm">
+                <div class="field"><label>მარკა/მოდელი</label><input type="text" id="model" required></div>
+                <div class="field"><label>ფასი ($)</label><input type="number" id="price" required></div>
+                <div class="field">
+                    <label>ფოტოს ატვირთვა</label>
+                    <input type="file" id="imageInput" accept="image/*">
+                    <p id="uploadStatus"></p>
+                </div>
+                <button type="submit" id="submitBtn" class="submit-btn" disabled>განთავსება</button>
+            </form>
         </div>
-    </section>
+    </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -171,10 +115,16 @@
             projectId: "automarket-2026",
             appId: "1:689194639330:web:db854d0dbfddded899a3bb"
         };
-
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
+        // ფუნქცია ფანჯრების გასახსნელად
+        window.toggleModal = (id) => {
+            const modal = document.getElementById(id);
+            modal.style.display = (modal.style.display === "flex") ? "none" : "flex";
+        };
+
+        // Firebase-ის ლოგიკა (იგივე რჩება)
         const viewsRef = ref(db, 'site_views');
         get(viewsRef).then((snap) => { set(viewsRef, (snap.val() || 0) + 1); });
 
