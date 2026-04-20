@@ -16,6 +16,15 @@
         <div id="catGrid" class="car-grid"></div>
     </main>
 
+    <div id="infoModal" class="full-modal">
+        <div class="modal-box">
+            <span class="close-modal" onclick="window.toggleModal('infoModal')">&times;</span>
+            <img id="infoImg" style="width:100%; border-radius:15px;">
+            <h2 id="infoTitle" style="margin-top:15px;"></h2>
+            <div id="infoContent" style="margin-top:10px; font-size:14px; color:#ccc; line-height:1.6;"></div>
+        </div>
+    </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -29,29 +38,144 @@
         const app = initializeApp(config);
         const db = getDatabase(app);
         
-        const params = new URLSearchParams(window.location.search);
-        const isAdmin = params.get('admin') === '123';
+        const isAdmin = new URLSearchParams(window.location.search).get('admin') === '123';
+
+        window.toggleModal = (id) => {
+            const m = document.getElementById(id);
+            if(m.style.display === 'flex') { m.classList.remove('active'); setTimeout(()=>m.style.display='none', 300); }
+            else { m.style.display='flex'; setTimeout(()=>m.classList.add('active'), 10); }
+        };
 
         window.deleteCar = (id) => { if(confirm("წავშალო?")) remove(ref(db, 'cars/'+id)); };
 
         onValue(ref(db, 'cars'), (snap) => {
-            const data = snap.val();
             const grid = document.getElementById('catGrid');
             grid.innerHTML = "";
+            const data = snap.val();
             if(!data) return;
             Object.keys(data).reverse().forEach(id => {
-                const car = data[id];
-                const delBtn = isAdmin ? `<button class="delete-btn" onclick="deleteCar('${id}')">წაშლა</button>` : "";
-                grid.innerHTML += `
-                    <div class="car-card">
-                        <div class="car-img" style="background-image:url('${car.image}')"></div>
-                        <div class="car-details">
-                            <h3>${car.model}</h3>
-                            <p class="car-price">${car.price} $</p>
-                            <p style="color:#666; font-size:13px;">${car.phone}</p>
-                            ${delBtn}
-                        </div>
-                    </div>`;
+                const c = data[id];
+                const del = isAdmin ? `<button class="delete-btn" onclick="deleteCar('${id}')">წაშლა</button>` : "";
+                
+                const card = document.createElement('div');
+                card.className = 'car-card';
+                card.innerHTML = `
+                    <div class="car-img" style="background-image:url('${c.image}')"><div class="overlay">დეტალები</div></div>
+                    <div class="car-details">
+                        <h3>${c.model} (${c.year})</h3>
+                        <p class="car-price">${c.price} $</p>
+                        <p style="color:#666; font-size:12px;">${c.fuel} | ${c.engine}</p>
+                        ${del}
+                    </div>
+                `;
+                card.onclick = (e) => {
+                    if(e.target.tagName === 'BUTTON') return;
+                    document.getElementById('infoTitle').innerText = c.model;
+                    document.getElementById('infoImg').src = c.image;
+                    document.getElementById('infoContent').innerHTML = `
+                        <p><b>მფლობელი:</b> ${c.owner}</p>
+                        <p><b>ფასი:</b> ${c.price} $ | <b>წელი:</b> ${c.year}</p>
+                        <p><b>საწვავი:</b> ${c.fuel} | <b>ძრავი:</b> ${c.engine}</p>
+                        <p><b>მდგომარეობა:</b> ${c.condition}</p>
+                        <p><b>ტექ-დათვალიერება:</b> ${c.tech}</p>
+                        <p><b>ტელეფონი:</b> ${c.phone}</p>
+                        <hr style="margin:10px 0; border:0; border-top:1px solid #333;">
+                        <p>${c.info}</p>
+                    `;
+                    window.toggleModal('infoModal');
+                };
+                grid.appendChild(card);
+            });
+        });
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <title>AutoMarket | კატალოგი</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">AUTO<span>MARKET</span></div>
+        <ul class="nav-links"><li><a href="index.html">მთავარი</a></li><li><a href="catalog.html">კატალოგი</a></li></ul>
+    </nav>
+
+    <main class="container">
+        <h2 class="section-title">ყველა <span>განცხადება</span></h2>
+        <div id="catGrid" class="car-grid"></div>
+    </main>
+
+    <div id="infoModal" class="full-modal">
+        <div class="modal-box">
+            <span class="close-modal" onclick="window.toggleModal('infoModal')">&times;</span>
+            <img id="infoImg" style="width:100%; border-radius:15px;">
+            <h2 id="infoTitle" style="margin-top:15px;"></h2>
+            <div id="infoContent" style="margin-top:10px; font-size:14px; color:#ccc; line-height:1.6;"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const config = {
+            apiKey: "AIzaSyCx2sZJQqP8ni_dz9fuhJwKWJrHnKRjGdE",
+            databaseURL: "https://automarket-2026-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "automarket-2026",
+            appId: "1:689194639330:web:db854d0dbfddded899a3bb"
+        };
+        const app = initializeApp(config);
+        const db = getDatabase(app);
+        
+        const isAdmin = new URLSearchParams(window.location.search).get('admin') === '123';
+
+        window.toggleModal = (id) => {
+            const m = document.getElementById(id);
+            if(m.style.display === 'flex') { m.classList.remove('active'); setTimeout(()=>m.style.display='none', 300); }
+            else { m.style.display='flex'; setTimeout(()=>m.classList.add('active'), 10); }
+        };
+
+        window.deleteCar = (id) => { if(confirm("წავშალო?")) remove(ref(db, 'cars/'+id)); };
+
+        onValue(ref(db, 'cars'), (snap) => {
+            const grid = document.getElementById('catGrid');
+            grid.innerHTML = "";
+            const data = snap.val();
+            if(!data) return;
+            Object.keys(data).reverse().forEach(id => {
+                const c = data[id];
+                const del = isAdmin ? `<button class="delete-btn" onclick="deleteCar('${id}')">წაშლა</button>` : "";
+                
+                const card = document.createElement('div');
+                card.className = 'car-card';
+                card.innerHTML = `
+                    <div class="car-img" style="background-image:url('${c.image}')"><div class="overlay">დეტალები</div></div>
+                    <div class="car-details">
+                        <h3>${c.model} (${c.year})</h3>
+                        <p class="car-price">${c.price} $</p>
+                        <p style="color:#666; font-size:12px;">${c.fuel} | ${c.engine}</p>
+                        ${del}
+                    </div>
+                `;
+                card.onclick = (e) => {
+                    if(e.target.tagName === 'BUTTON') return;
+                    document.getElementById('infoTitle').innerText = c.model;
+                    document.getElementById('infoImg').src = c.image;
+                    document.getElementById('infoContent').innerHTML = `
+                        <p><b>მფლობელი:</b> ${c.owner}</p>
+                        <p><b>ფასი:</b> ${c.price} $ | <b>წელი:</b> ${c.year}</p>
+                        <p><b>საწვავი:</b> ${c.fuel} | <b>ძრავი:</b> ${c.engine}</p>
+                        <p><b>მდგომარეობა:</b> ${c.condition}</p>
+                        <p><b>ტექ-დათვალიერება:</b> ${c.tech}</p>
+                        <p><b>ტელეფონი:</b> ${c.phone}</p>
+                        <hr style="margin:10px 0; border:0; border-top:1px solid #333;">
+                        <p>${c.info}</p>
+                    `;
+                    window.toggleModal('infoModal');
+                };
+                grid.appendChild(card);
             });
         });
     </script>
