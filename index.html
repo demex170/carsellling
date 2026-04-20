@@ -23,39 +23,35 @@
         <div class="hero-content">
             <h1>გაყიდე და შეიძინე ავტომობილი</h1>
             <p>საუკეთესო პლატფორმა ავტომოყვარულებისთვის</p>
-            <a href="#popular" class="btn-main">დათვალიერება</a>
         </div>
     </section>
 
-<section id="popular" class="popular-cars">
+    <section id="popular" class="popular-cars">
         <div class="container">
             <h2 class="section-title">პოპულარული მოდელები</h2>
             <div class="pop-grid">
-                
                 <div class="pop-card">
-                    <div class="pop-img" style="background-image: url('https://ibb.co/7dPfMSCn');"></div>
+                    <div class="pop-img" style="background-image: url('cls.jpg');"></div>
                     <div class="pop-info">
                         <h3>Mercedes-Benz CLS W218</h3>
-                        <p>ელეგანტურობისა და სიმძლავრის იდეალური სინთეზი. ოთხკარიანი კუპე, რომელიც ავტოინდუსტრიის ხატად იქცა.</p>
+                        <p>ელეგანტურობისა და სიმძლავრის სინთეზი.</p>
                         <div class="pop-specs">
                             <span><i class="fa fa-horse"></i> 408+ HP</span>
                             <span><i class="fa fa-tachometer-alt"></i> V8 Biturbo</span>
                         </div>
                     </div>
                 </div>
-
                 <div class="pop-card">
-                    <div class="pop-img" style="background-image: url('https://ibb.co/KzN4t2zm');"></div>
+                    <div class="pop-img" style="background-image: url('m5.jpg');"></div>
                     <div class="pop-info">
                         <h3>BMW M5 E60</h3>
-                        <p>ლეგენდარული V10 ძრავით აღჭურვილი სედანი. ფორმულა 1-ის ტექნოლოგია ქალაქის ქუჩებში.</p>
+                        <p>ლეგენდარული V10 ძრავით აღჭურვილი სედანი.</p>
                         <div class="pop-specs">
                             <span><i class="fa fa-horse"></i> 507 HP</span>
                             <span><i class="fa fa-tachometer-alt"></i> 5.0L V10</span>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
@@ -66,43 +62,12 @@
                 <h2>განცხადების განთავსება</h2>
                 <form id="carForm">
                     <div class="input-group">
-                        <div class="field">
-                            <label>მარკა/მოდელი</label>
-                            <input type="text" id="model" placeholder="მაგ: Toyota Camry" required>
-                        </div>
-                        <div class="field">
-                            <label>ფასი ($)</label>
-                            <input type="number" id="price" placeholder="მაგ: 15000" required>
-                        </div>
+                        <div class="field"><label>მარკა/მოდელი</label><input type="text" id="model" required></div>
+                        <div class="field"><label>ფასი ($)</label><input type="number" id="price" required></div>
                     </div>
                     <div class="input-group">
-                        <div class="field">
-                            <label>წელი</label>
-                            <input type="number" id="year" placeholder="2022" required>
-                        </div>
-                        <div class="field">
-                            <label>გარბენი (კმ)</label>
-                            <input type="number" id="mileage" placeholder="მაგ: 50000" required>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <div class="field">
-                            <label>საწვავის ტიპი</label>
-                            <select id="fuel">
-                                <option value="ბენზინი">ბენზინი</option>
-                                <option value="დიზელი">დიზელი</option>
-                                <option value="ჰიბრიდი">ჰიბრიდი</option>
-                                <option value="ელექტრო">ელექტრო</option>
-                            </select>
-                        </div>
-                        <div class="field">
-                            <label>მდგომარეობა</label>
-                            <select id="condition">
-                                <option value="ახალი">ახალი</option>
-                                <option value="მეორადი">მეორადი</option>
-                                <option value="დაზიანებული">დაზიანებული</option>
-                            </select>
-                        </div>
+                        <div class="field"><label>წელი</label><input type="number" id="year" required></div>
+                        <div class="field"><label>გარბენი</label><input type="number" id="mileage" required></div>
                     </div>
                     <div class="field">
                         <label>ფოტოს ატვირთვა</label>
@@ -139,10 +104,7 @@
             document.getElementById('uploadStatus').innerText = "იტვირთება...";
             const formData = new FormData();
             formData.append('image', file);
-            const res = await fetch('https://api.imgbb.com/1/upload?key=288f0f93fa8f453cc70cb272d0e7480f', {
-                method: 'POST',
-                body: formData
-            });
+            const res = await fetch('https://api.imgbb.com/1/upload?key=288f0f93fa8f453cc70cb272d0e7480f', { method: 'POST', body: formData });
             const data = await res.json();
             if(data.success) {
                 uploadedImageUrl = data.data.url;
@@ -153,18 +115,13 @@
 
         document.getElementById('carForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            const carData = {
+            push(ref(db, 'cars'), {
                 model: document.getElementById('model').value,
                 price: document.getElementById('price').value,
                 year: document.getElementById('year').value,
                 mileage: document.getElementById('mileage').value,
-                fuel: document.getElementById('fuel').value,
-                condition: document.getElementById('condition').value,
                 image: uploadedImageUrl
-            };
-            push(ref(db, 'cars'), carData).then(() => {
-                window.location.href = "catalog.html";
-            });
+            }).then(() => window.location.href = "catalog.html");
         });
     </script>
 </body>
