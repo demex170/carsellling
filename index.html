@@ -2,7 +2,7 @@
 <html lang="ka">
 <head>
     <meta charset="UTF-8">
-    <title>AutoMarket | Premium Cars</title>
+    <title>AutoMarket | მთავარი</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -25,11 +25,35 @@
     <main class="container">
         <h2 class="section-title">პოპულარული <span>მოდელები</span></h2>
         <div class="car-grid">
-             <div class="car-card" onclick="showInfo('Mercedes W211', '18,000 $', 'ბენზინი', '3.2', 'იდეალური', 'გავლილი აქვს', 'კლასიკური კომფორტი.', 'w211.jpg')">
+            <div class="car-card" onclick="showSimple('Mercedes W211', '18,000 $', '2008', '3.2', 'w211.jpg')">
                 <div class="car-img" style="background-image:url('w211.jpg')"><div class="overlay">ნახვა</div></div>
                 <div class="car-details"><h3>Mercedes W211</h3><p class="car-price">18,000 $</p></div>
             </div>
+            <div class="car-card" onclick="showSimple('BMW M5 E60', '28,000 $', '2006', '5.0 V10', 'e60.jpg')">
+                <div class="car-img" style="background-image:url('e60.jpg')"><div class="overlay">ნახვა</div></div>
+                <div class="car-details"><h3>BMW M5 E60</h3><p class="car-price">28,000 $</p></div>
             </div>
+            <div class="car-card" onclick="showSimple('Mercedes CLS W218', '35,000 $', '2014', '3.5', 'w218.jpg')">
+                <div class="car-img" style="background-image:url('w218.jpg')"><div class="overlay">ნახვა</div></div>
+                <div class="car-details"><h3>Mercedes CLS W218</h3><p class="car-price">35,000 $</p></div>
+            </div>
+            <div class="car-card" onclick="showSimple('BMW M4 G82', '75,000 $', '2022', '3.0 TwinPower', 'm4.jpg')">
+                <div class="car-img" style="background-image:url('m4.jpg')"><div class="overlay">ნახვა</div></div>
+                <div class="car-details"><h3>BMW M4 G82</h3><p class="car-price">75,000 $</p></div>
+            </div>
+            <div class="car-card" onclick="showSimple('Bugatti', '18M $', '2019', '8.0 W16', 'bugatti.jpg')">
+                <div class="car-img" style="background-image:url('bugatti.jpg')"><div class="overlay">ნახვა</div></div>
+                <div class="car-details"><h3>Bugatti La Voiture</h3><p class="car-price">18,000,000 $</p></div>
+            </div>
+            <div class="car-card" onclick="showSimple('Porsche 911 GT3', '350,000 $', '2023', '4.0', 'porsche.jpg')">
+                <div class="car-img" style="background-image:url('porsche.jpg')"><div class="overlay">ნახვა</div></div>
+                <div class="car-details"><h3>Porsche 911 GT3</h3><p class="car-price">350,000 $</p></div>
+            </div>
+            <div class="car-card" onclick="showSimple('Mercedes CLS W219', '15,000 $', '2006', '5.0', 'w219.jpg')">
+                <div class="car-img" style="background-image:url('w219.jpg')"><div class="overlay">ნახვა</div></div>
+                <div class="car-details"><h3>Mercedes CLS W219</h3><p class="car-price">15,000 $</p></div>
+            </div>
+        </div>
     </main>
 
     <div id="aboutModal" class="full-modal">
@@ -49,11 +73,7 @@
             <span class="close-modal" onclick="toggleModal('supportModal')">&times;</span>
             <h2>SUP<span>PORT</span></h2>
             <form action="https://formspree.io/f/xpqkjawy" method="POST">
-                <select name="Reason" required>
-                    <option value="" disabled selected>მიზეზი</option>
-                    <option value="Report">რეპორტი</option>
-                    <option value="Problem">პრობლემა</option>
-                </select>
+                <select name="type" required><option value="Report">რეპორტი</option><option value="Problem">პრობლემა</option></select>
                 <input type="email" name="email" placeholder="თქვენი მეილი" required>
                 <textarea name="message" placeholder="როგორ დაგეხმაროთ?" required></textarea>
                 <button type="submit" class="submit-btn">გაგზავნა</button>
@@ -64,7 +84,7 @@
     <div id="sellModal" class="full-modal">
         <div class="modal-box">
             <span class="close-modal" onclick="toggleModal('sellModal')">&times;</span>
-            <h2 style="margin-bottom:15px;">გაყიდე <span>მანქანა</span></h2>
+            <h2>გაყიდე <span>მანქანა</span></h2>
             <form id="sellForm">
                 <div class="form-grid">
                     <input type="text" id="mOwner" placeholder="სახელი გვარი" required>
@@ -72,26 +92,23 @@
                     <input type="number" id="mYear" placeholder="წელი" required>
                     <input type="text" id="mEngine" placeholder="ძრავი" required>
                     <select id="mFuel" required>
-                        <option value="" disabled selected>საწვავის ტიპი</option>
                         <option value="ბენზინი">ბენზინი</option>
                         <option value="დიზელი">დიზელი</option>
                         <option value="ჰიბრიდი">ჰიბრიდი</option>
                         <option value="ელექტრო">ელექტრო</option>
                     </select>
                     <select id="mCondition" required>
-                        <option value="" disabled selected>მდგომარეობა</option>
                         <option value="იდეალური">იდეალური</option>
                         <option value="კარგი">კარგი</option>
                         <option value="საშუალო">საშუალო</option>
                     </select>
                     <select id="mTech" required style="grid-column: span 2;">
-                        <option value="" disabled selected>ტექ-დათვალიერება</option>
-                        <option value="გავლილი აქვს">გავლილი აქვს</option>
-                        <option value="არ აქვს გავლილი">არ აქვს გავლილი</option>
+                        <option value="გავლილი აქვს">ტექ-დათვალიერება: გავლილი აქვს</option>
+                        <option value="არ აქვს გავლილი">ტექ-დათვალიერება: არ აქვს გავლილი</option>
                     </select>
                     <input type="number" id="mPrice" placeholder="ფასი $" required>
                     <input type="tel" id="mPhone" placeholder="ნომერი" required>
-                    <textarea id="mInfo" placeholder="მინი ინფორმაცია მანქანაზე..."></textarea>
+                    <textarea id="mInfo" placeholder="მინი ინფორმაცია..."></textarea>
                 </div>
                 <input type="file" id="mFile" accept="image/*" required>
                 <p id="status" style="font-size:12px; color:var(--accent); text-align:center; margin-top:5px;"></p>
@@ -105,7 +122,7 @@
             <span class="close-modal" onclick="toggleModal('infoModal')">&times;</span>
             <img id="infoImg" style="width:100%; border-radius:15px;">
             <h2 id="infoTitle" style="margin-top:15px;"></h2>
-            <div id="infoContent" style="margin-top:10px; font-size:14px; color:#ccc; line-height:1.6;"></div>
+            <div id="infoContent" style="margin-top:10px;"></div>
         </div>
     </div>
 
@@ -124,40 +141,28 @@
 
         window.toggleModal = (id) => {
             const m = document.getElementById(id);
-            if (!m.classList.contains('active')) {
-                m.style.display = 'flex';
-                setTimeout(() => m.classList.add('active'), 10);
-            } else {
-                m.classList.remove('active');
-                setTimeout(() => m.style.display = 'none', 300);
-            }
-        };
+            if (!m.classList.contains('active')) { m.style.display = 'flex'; setTimeout(() => m.classList.add('active'), 10); }
+            else { m.classList.remove('active'); setTimeout(() => m.style.display = 'none', 300); }
+        }
 
-        window.showInfo = (title, price, fuel, engine, cond, tech, desc, img) => {
+        window.showSimple = (title, price, year, engine, img) => {
             document.getElementById('infoTitle').innerText = title;
             document.getElementById('infoImg').src = img;
             document.getElementById('infoContent').innerHTML = `
-                <p><b style="color:var(--accent)">ფასი:</b> ${price}</p>
-                <p><b>საწვავი:</b> ${fuel} | <b>ძრავი:</b> ${engine}</p>
-                <p><b>მდგომარეობა:</b> ${cond}</p>
-                <p><b>ტექ-დათვალიერება:</b> ${tech}</p>
-                <hr style="margin:10px 0; border:0; border-top:1px solid #333;">
-                <p>${desc}</p>
+                <p><b>ფასი:</b> ${price}</p>
+                <p><b>წელი:</b> ${year}</p>
+                <p><b>ძრავი:</b> ${engine}</p>
             `;
             toggleModal('infoModal');
-        };
+        }
 
         const fileIn = document.getElementById('mFile');
         fileIn.onchange = async (e) => {
-            document.getElementById('status').innerText = "სურათი იტვირთება...";
+            document.getElementById('status').innerText = "იტვირთება...";
             const fd = new FormData(); fd.append('image', e.target.files[0]);
             const res = await fetch('https://api.imgbb.com/1/upload?key=288f0f93fa8f453cc70cb272d0e7480f', {method:'POST', body:fd});
             const d = await res.json();
-            if(d.success) { 
-                window.imgUrl = d.data.url; 
-                document.getElementById('subBtn').disabled = false; 
-                document.getElementById('status').innerText = "სურათი მზადაა!";
-            }
+            if(d.success) { window.imgUrl = d.data.url; document.getElementById('subBtn').disabled = false; document.getElementById('status').innerText = "მზადაა!"; }
         };
 
         document.getElementById('sellForm').onsubmit = async (e) => {
