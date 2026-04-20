@@ -38,16 +38,15 @@
             grid.innerHTML = ""; 
             if(!data) return;
             
-            Object.values(data).reverse().forEach(car => {
+            // სორტირება დროს მიხედვით (ახალი პირველი)
+            Object.values(data).sort((a,b) => b.timestamp - a.timestamp).forEach(car => {
                 grid.innerHTML += `
                     <div class="car-card">
-                        <div class="car-img" style="background-image:url('${car.image}')">
-                            <div class="overlay">ნახვა</div>
-                        </div>
+                        <div class="car-img" style="background-image:url('${car.image}')"><div class="overlay">ნახვა</div></div>
                         <div class="car-details">
                             <h3>${car.model}</h3>
                             <p class="car-price">${car.price} $</p>
-                            <p style="color:#777; margin-top:5px;">${car.phone}</p>
+                            <p style="color:#777; font-size:14px; margin-top:5px;">${car.phone}</p>
                         </div>
                     </div>
                 `;
