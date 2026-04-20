@@ -1,321 +1,41 @@
-/* --- ძირითადი პარამეტრები --- */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+body { background: #0b0b0b; color: white; scroll-behavior: smooth; }
 
-body {
-    background: #0b0b0b;
-    color: white;
-    scroll-behavior: smooth;
-    overflow-x: hidden;
-}
+/* Navbar */
+.navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 8%; background: #000; border-bottom: 1px solid #222; position: fixed; width: 100%; top: 0; z-index: 1000; }
+.logo span { color: #ff3e3e; font-weight: bold; }
+.nav-links { list-style: none; display: flex; align-items: center; }
+.nav-links li { margin-left: 20px; }
+.nav-links a { color: white; text-decoration: none; font-size: 14px; }
+.btn-sell { background: #ff3e3e; padding: 8px 15px; border-radius: 5px; font-weight: bold; }
 
-.container {
-    max-width: 1200px;
-    margin: auto;
-    padding: 0 20px;
-}
+/* Hero */
+.hero { height: 60vh; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1500'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; margin-top: 50px; }
+.hero h1 { font-size: 40px; }
 
-/* --- ნავიგაცია --- */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 8%;
-    background: rgba(0, 0, 0, 0.95);
-    border-bottom: 1px solid #222;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
-    backdrop-filter: blur(10px);
-}
+/* Pop Grid */
+.popular-cars { padding: 60px 0; }
+.section-title { text-align: center; margin-bottom: 40px; font-size: 28px; }
+.pop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 0 5%; }
+.pop-card { background: #151515; border-radius: 10px; overflow: hidden; border: 1px solid #222; transition: 0.3s; }
+.pop-card:hover { border-color: #ff3e3e; transform: translateY(-5px); }
+.pop-img { height: 200px; background-size: cover; background-position: center; }
+.pop-info { padding: 15px; }
+.pop-specs span { background: #222; padding: 5px 10px; border-radius: 4px; font-size: 12px; }
 
-.logo {
-    font-size: 22px;
-    font-weight: bold;
-    letter-spacing: 1px;
-}
+/* Modals */
+.full-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; }
+.modal-box { background: #111; padding: 30px; border-radius: 15px; border: 1px solid #333; width: 90%; max-width: 800px; position: relative; }
+.small-modal { max-width: 500px; }
+.close-modal { position: absolute; top: 15px; right: 20px; font-size: 30px; cursor: pointer; color: #888; }
 
-.logo span {
-    color: #ff3e3e;
-}
+/* Form Elements */
+.field { margin-bottom: 15px; }
+.field label { display: block; font-size: 12px; color: #888; margin-bottom: 5px; }
+input, select, textarea { width: 100%; padding: 10px; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 5px; }
+.submit-btn { background: #ff3e3e; color: white; border: none; padding: 12px; width: 100%; border-radius: 5px; font-weight: bold; cursor: pointer; }
+.submit-btn:disabled { background: #444; }
 
-.nav-links {
-    list-style: none;
-    display: flex;
-    align-items: center;
-}
-
-.nav-links li {
-    margin-left: 25px;
-}
-
-.nav-links a {
-    color: white;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    transition: 0.3s;
-}
-
-.nav-links a:hover {
-    color: #ff3e3e;
-}
-
-.btn-sell {
-    background: #ff3e3e;
-    padding: 10px 20px;
-    border-radius: 6px;
-    font-weight: bold;
-    color: white !important;
-}
-
-.btn-sell:hover {
-    background: #e63535;
-    transform: scale(1.05);
-}
-
-/* --- Hero სექცია --- */
-.hero {
-    height: 70vh;
-    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
-                url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1500');
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    margin-top: 60px;
-}
-
-.hero h1 {
-    font-size: clamp(30px, 5vw, 55px);
-    margin-bottom: 10px;
-    text-transform: uppercase;
-}
-
-.hero p {
-    font-size: 18px;
-    color: #ccc;
-}
-
-/* --- პოპულარული მანქანების გრიდი --- */
-.popular-cars {
-    padding: 80px 0;
-}
-
-.section-title {
-    text-align: center;
-    margin-bottom: 50px;
-    font-size: 32px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-.pop-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 30px;
-}
-
-.pop-card {
-    background: #151515;
-    border-radius: 15px;
-    overflow: hidden;
-    border: 1px solid #222;
-    transition: 0.4s ease;
-}
-
-.pop-card:hover {
-    transform: translateY(-10px);
-    border-color: #ff3e3e;
-    box-shadow: 0 10px 30px rgba(255, 62, 62, 0.15);
-}
-
-.pop-img {
-    height: 230px;
-    background-size: cover;
-    background-position: center;
-}
-
-.pop-info {
-    padding: 25px;
-}
-
-.pop-info h3 {
-    font-size: 20px;
-    margin-bottom: 15px;
-}
-
-.pop-specs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.pop-specs span {
-    background: #222;
-    padding: 6px 12px;
-    font-size: 12px;
-    border-radius: 5px;
-    color: #bbb;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.pop-specs i {
-    color: #ff3e3e;
-}
-
-/* --- AMOMXTARI FANJREBI (MODALS) --- */
-.full-modal {
-    display: none; /* თავიდან დამალულია */
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.92);
-    z-index: 2000;
-    justify-content: center;
-    align-items: center;
-    backdrop-filter: blur(8px);
-    padding: 20px;
-}
-
-.modal-box {
-    background: #111;
-    padding: 40px;
-    border-radius: 20px;
-    border: 1px solid #333;
-    width: 100%;
-    max-width: 900px;
-    position: relative;
-    max-height: 90vh;
-    overflow-y: auto;
-    animation: modalFadeIn 0.3s ease-out;
-}
-
-.small-modal {
-    max-width: 500px;
-}
-
-@keyframes modalFadeIn {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
-}
-
-.close-modal {
-    position: absolute;
-    top: 20px;
-    right: 25px;
-    font-size: 35px;
-    color: #666;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.close-modal:hover {
-    color: #ff3e3e;
-}
-
-/* --- კონტაქტის და ფორმის ელემენტები --- */
-.about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-}
-
-.about-info h2 {
-    color: #ff3e3e;
-    margin-bottom: 20px;
-}
-
-.about-info p {
-    color: #ccc;
-    line-height: 1.8;
-}
-
-.contact-admin h3 {
-    margin-bottom: 20px;
-}
-
-.field {
-    margin-bottom: 20px;
-}
-
-.field label {
-    display: block;
-    font-size: 13px;
-    color: #888;
-    margin-bottom: 8px;
-}
-
-input, select, textarea {
-    width: 100%;
-    padding: 12px;
-    background: #1a1a1a;
-    border: 1px solid #333;
-    color: white;
-    border-radius: 8px;
-    outline: none;
-    font-size: 15px;
-    transition: 0.3s;
-}
-
-input:focus, select:focus, textarea:focus {
-    border-color: #ff3e3e;
-}
-
-.submit-btn {
-    width: 100%;
-    padding: 15px;
-    background: #ff3e3e;
-    border: none;
-    color: white;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: 0.3s;
-}
-
-.submit-btn:hover {
-    background: #e63535;
-}
-
-.submit-btn:disabled {
-    background: #444;
-    cursor: not-allowed;
-}
-
-#uploadStatus {
-    font-size: 13px;
-    margin-top: 5px;
-    color: #ff3e3e;
-}
-
-/* --- მობილური ადაპტაცია --- */
-@media (max-width: 850px) {
-    .about-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .modal-box {
-        padding: 25px;
-    }
-}
-
-@media (max-width: 600px) {
-    .nav-links li:not(.btn-sell) {
-        display: none; /* პატარა ეკრანზე ვტოვებთ მხოლოდ გაყიდვის ღილაკს */
-    }
-    
-    .hero h1 {
-        font-size: 28px;
-    }
-}
+/* Search Bar (Catalog-ისთვის) */
+.search-container { text-align: center; margin: 100px 0 30px 0; }
+.search-bar { width: 50%; padding: 12px; border-radius: 25px; border: 1px solid #ff3e3e; background: #111; color: white; outline: none; }
