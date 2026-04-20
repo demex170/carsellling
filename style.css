@@ -20,33 +20,23 @@ body { background: var(--bg); color: var(--text); padding-top: 80px; }
 .logo span { color: var(--accent); font-weight: bold; }
 .nav-links { list-style: none; display: flex; align-items: center; }
 .nav-links li { margin-left: 20px; }
-.nav-links a { color: #fff; text-decoration: none; font-size: 14px; cursor: pointer; }
+.nav-links a { color: #fff; text-decoration: none; font-size: 14px; cursor: pointer; transition: 0.3s; }
+.nav-links a:hover { color: var(--accent); }
 .btn-sell { background: var(--accent); padding: 8px 15px; border-radius: 5px; color: white !important; font-weight: bold; }
 
-/* Hero & About */
-.hero { height: 40vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1500&q=80'); background-size: cover; text-align: center; border-radius: 0 0 20px 20px; }
-.about-section { text-align: center; padding: 40px 0; background: var(--card); border-radius: 20px; margin: 30px 0; border: 1px solid var(--border); }
-.about-content { max-width: 800px; margin: auto; line-height: 1.6; color: #ccc; }
-
-.section-title { text-align: center; margin: 40px 0 20px; font-size: 26px; text-transform: uppercase; }
-.section-title::after { content: ''; display: block; width: 50px; height: 3px; background: var(--accent); margin: 10px auto; }
-
-/* GRID FIX - აქ აღარ აირევა */
-.car-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-bottom: 50px; }
+/* Grid Fix - ფოტოები რომ არ აირიოს */
+.section-title { text-align: center; margin: 40px 0 30px; font-size: 28px; text-transform: uppercase; }
+.car-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; margin-bottom: 50px; }
 .car-card { background: var(--card); border-radius: 15px; overflow: hidden; border: 1px solid var(--border); display: flex; flex-direction: column; height: 100%; transition: 0.3s; }
-.car-card:hover { transform: translateY(-5px); border-color: var(--accent); }
-
-.car-img { width: 100%; height: 200px; background-size: cover; background-position: center; position: relative; }
-.overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); opacity:0; display:flex; align-items:center; justify-content:center; transition: 0.3s; }
-.car-card:hover .overlay { opacity:1; }
-.overlay ul { color: #fff; list-style: none; font-size: 12px; }
+.car-img { width: 100%; height: 200px; background-size: cover; background-position: center; }
 .car-details { padding: 15px; text-align: center; flex-grow: 1; }
-.car-price { color: var(--accent); font-size: 20px; font-weight: bold; }
+.car-price { color: var(--accent); font-size: 22px; font-weight: bold; }
 
-/* Modals */
-.full-modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); z-index: 2000; align-items: center; justify-content: center; }
-.modal-box { background: var(--card); padding: 30px; border-radius: 20px; width: 90%; position: relative; }
-.close-modal { position: absolute; top:10px; right:20px; font-size: 30px; cursor: pointer; }
-input { width: 100%; padding: 10px; margin: 10px 0; background: #222; border: 1px solid var(--border); color: #fff; border-radius: 5px; }
-.submit-btn { background: var(--accent); color: #fff; border: none; padding: 12px; width: 100%; border-radius: 5px; cursor: pointer; font-weight: bold; }
-.wa-btn { background: #25d366; color: #fff; text-decoration: none; padding: 10px; display: block; text-align: center; border-radius: 5px; margin-top: 10px; }
+/* Modal Styles */
+.full-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+.modal-box { background: var(--card); padding: 30px; border-radius: 20px; width: 90%; max-width: 500px; position: relative; border: 1px solid var(--border); }
+.close-modal { position: absolute; top: 15px; right: 20px; font-size: 30px; cursor: pointer; color: var(--accent); }
+
+/* Buttons & Inputs */
+input, textarea { width: 100%; padding: 12px; margin-top: 10px; background: #222; border: 1px solid var(--border); color: #fff; border-radius: 8px; outline: none; }
+.submit-btn { background: var(--accent); color: #fff; border: none; padding: 12px; width: 100%; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 15px; }
