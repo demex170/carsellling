@@ -17,7 +17,8 @@
     </nav>
 
     <main class="container">
-        <h2 class="section-title">ყველა განცხადება</h2>
+        <h2 class="section-title">ყველა <span>განცხადება</span></h2>
+        
         <div id="catGrid" class="car-grid"></div>
     </main>
 
@@ -37,17 +38,17 @@
         const db = getDatabase(app);
         const grid = document.getElementById('catGrid');
 
-        // მონაცემების წამოღება რეალურ დროში
+        // მონაცემების რეალურ დროში წამოღება
         onValue(ref(db, 'cars'), (snapshot) => {
             const data = snapshot.val();
-            grid.innerHTML = ""; // გასუფთავება
+            grid.innerHTML = ""; 
 
             if (!data) {
-                grid.innerHTML = "<h3 style='grid-column: 1/-1; text-align: center; color: #555;'>განცხადებები ჯერჯერობით არ არის.</h3>";
+                grid.innerHTML = "<h3 style='grid-column: 1/-1; text-align: center; color: #444; margin-top: 50px;'>განცხადებები ჯერ არ არის.</h3>";
                 return;
             }
 
-            // მონაცემების შებრუნება (რომ ახალი პირველი გამოჩნდეს)
+            // ახალი განცხადებები გამოჩნდეს თავში
             Object.entries(data).reverse().forEach(([id, car]) => {
                 const card = document.createElement('div');
                 card.className = 'car-card';
@@ -56,17 +57,21 @@
                     <div class="car-img" style="background-image:url('${car.image}')">
                         <div class="overlay">
                             <h4>${car.model}</h4>
-                            <p>${car.year || 'N/A'} წელი</p>
-                            <a href="tel:${car.phone}" style="color: white; text-decoration: none; margin-top: 10px; border: 1px solid white; padding: 5px 15px; border-radius: 5px;">
+                            <p>${car.year} წელი</p>
+                            <a href="tel:${car.phone}" style="color: white; text-decoration: none; margin-top: 15px; border: 2px solid white; padding: 8px 20px; border-radius: 10px; font-weight: bold; transition: 0.3s;">
                                 <i class="fas fa-phone"></i> დარეკვა
                             </a>
                         </div>
                     </div>
                     <div class="car-details">
                         <h3>${car.model}</h3>
-                        <p style="color: #777; font-size: 13px; margin-bottom: 5px;">${car.year} წელი | ${car.fuel || 'ბენზინი'}</p>
+                        <div style="display: flex; justify-content: center; gap: 10px; color: #666; font-size: 14px; margin-bottom: 10px;">
+                            <span><i class="fas fa-calendar"></i> ${car.year}</span>
+                            <span>|</span>
+                            <span><i class="fas fa-gas-pump"></i> ${car.fuel || 'ბენზინი'}</span>
+                        </div>
                         <p class="car-price">${car.price} $</p>
-                        <p style="margin-top: 10px; font-weight: bold; color: var(--text);">${car.phone}</p>
+                        <p style="margin-top: 12px; font-weight: 600; letter-spacing: 1px; color: #ccc;">${car.phone}</p>
                     </div>
                 `;
                 grid.appendChild(card);
