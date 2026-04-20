@@ -17,39 +17,80 @@
             </ul>
         </nav>
     </header>
-    <div class="container" style="padding-top: 100px;">
+
+    <div class="view-count">საიტის ნახვები: <span id="totalViews">0</span></div>
+
+    <div class="container" style="padding-top: 50px;">
         <h1 style="text-align: center; margin-bottom: 30px;">ავტომობილების კატალოგი</h1>
         <div id="catalogGrid" class="car-grid"></div>
     </div>
+
+    <div id="carModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-flex" id="modalData"></div>
+        </div>
+    </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
         const firebaseConfig = {
             apiKey: "AIzaSyCx2sZJQqP8ni_dz9fuhJwKWJrHnKRjGdE",
             databaseURL: "https://automarket-2026-default-rtdb.europe-west1.firebasedatabase.app",
             projectId: "automarket-2026",
             appId: "1:689194639330:web:db854d0dbfddded899a3bb"
         };
+
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
+
+        onValue(ref(db, 'site_views'), (snap) => { document.getElementById('totalViews').innerText = snap.val() || 0; });
+
         onValue(ref(db, 'cars'), (snapshot) => {
             const grid = document.getElementById('catalogGrid');
             grid.innerHTML = "";
             const data = snapshot.val();
-            if(data) {
-                Object.values(data).reverse().forEach(car => {
-                    grid.innerHTML += `
-                        <div class="car-card">
-                            <div class="car-img" style="background-image: url('${car.image}')"></div>
-                            <div class="car-details">
-                                <h3>${car.model} (${car.year})</h3>
-                                <p class="car-price">$${car.price}</p>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
+            if(!data) return;
+
+            Object.keys(data).reverse().forEach(id => {
+                const car = data[id];
+                const card = document.createElement('div');
+                card.className = 'car-card';
+                card.innerHTML = `
+                    <div class="car-img" style="background-image: url('${car.image}')" onclick="showDetails('${id}')"></div>
+                    <div class="car-details">
+                        <h3 onclick="showDetails('${id}')" style="cursor:pointer">${car.model}</h3>
+                        <p class="car-price">$${car.price}</p>
+                        <button class="delete-btn" onclick="deleteCar('${id}')">წაშლა</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            window.showDetails = (id) => {
+                const car = data[id];
+                document.getElementById('modalData').innerHTML = `
+                    <img src="${car.image}" class="modal-img">
+                    <div class="modal-info">
+                        <h2>${car.model}</h2>
+                        <h1 style="color:#ff3e3e">$${car.price}</h1>
+                        <p><b>წელი:</b> ${car.year}</p>
+                        <p><b>გარბენი:</b> ${car.mileage} კმ</p>
+                        <p><b>საწვავი:</b> ${car.fuel}</p>
+                        <p><b>მდგომარეობა:</b> ${car.condition}</p>
+                    </div>
+                `;
+                document.getElementById('carModal').style.display = "block";
+            };
+
+            window.deleteCar = (id) => {
+                if(confirm("წავშალოთ განცხადება?")) remove(ref(db, 'cars/' + id));
+            };
         });
+
+        document.querySelector('.close').onclick = () => { document.getElementById('carModal').style.display = "none"; };
     </script>
 </body>
 </html>
