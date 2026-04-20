@@ -11,6 +11,7 @@
         <ul class="nav-links">
             <li><a href="index.html">მთავარი</a></li>
             <li><a href="catalog.html">კატალოგი</a></li>
+            <li><a onclick="toggleModal('aboutModal')">ჩვენს შესახებ</a></li>
             <li><button class="btn-sell" onclick="toggleModal('sellModal')">გაყიდე</button></li>
         </ul>
     </nav>
@@ -23,25 +24,73 @@
     <main class="container">
         <h2 class="section-title">პოპულარული <span>მოდელები</span></h2>
         <div class="car-grid">
+            
             <div class="car-card">
-                <div class="car-img" style="background-image:url('w211.jpg')"><div class="overlay"><h4>W211</h4><p>E-Class</p></div></div>
-                <div class="car-details"><h3>Mercedes W211</h3><p class="car-price">18,000 $</p></div>
+                <div class="car-img" style="background-image:url('w211.jpg')">
+                    <div class="overlay"><h4>Mercedes W211</h4><p>E-Class Classic</p></div>
+                </div>
+                <div class="car-details"><h3>Mercedes-Benz W211</h3><p class="car-price">18,000 $</p></div>
             </div>
+
             <div class="car-card">
-                <div class="car-img" style="background-image:url('e60.jpg')"><div class="overlay"><h4>E60</h4><p>M5 V10</p></div></div>
+                <div class="car-img" style="background-image:url('e60.jpg')">
+                    <div class="overlay"><h4>BMW M5 E60</h4><p>V10 Engine</p></div>
+                </div>
                 <div class="car-details"><h3>BMW M5 E60</h3><p class="car-price">28,000 $</p></div>
             </div>
+
             <div class="car-card">
-                <div class="car-img" style="background-image:url('w218.jpg')"><div class="overlay"><h4>W218</h4><p>CLS AMG</p></div></div>
-                <div class="car-details"><h3>Mercedes CLS</h3><p class="car-price">35,000 $</p></div>
+                <div class="car-img" style="background-image:url('w218.jpg')">
+                    <div class="overlay"><h4>Mercedes W218</h4><p>CLS 63 AMG</p></div>
+                </div>
+                <div class="car-details"><h3>Mercedes CLS W218</h3><p class="car-price">35,000 $</p></div>
             </div>
+
+            <div class="car-card">
+                <div class="car-img" style="background-image:url('m4.jpg')">
+                    <div class="overlay"><h4>BMW M4 G82</h4><p>2022 მოდელი</p></div>
+                </div>
+                <div class="car-details"><h3>BMW M4 G82</h3><p class="car-price">75,000 $</p></div>
+            </div>
+
+            <div class="car-card">
+                <div class="car-img" style="background-image:url('bugatti.jpg')">
+                    <div class="overlay"><h4>Bugatti</h4><p>La Voiture Noire</p></div>
+                </div>
+                <div class="car-details"><h3>Bugatti La Voiture</h3><p class="car-price">18,000,000 $</p></div>
+            </div>
+
+            <div class="car-card">
+                <div class="car-img" style="background-image:url('porsche.jpg')">
+                    <div class="overlay"><h4>Porsche 911</h4><p>GT3 RS</p></div>
+                </div>
+                <div class="car-details"><h3>Porsche 911 GT3</h3><p class="car-price">350,000 $</p></div>
+            </div>
+
+            <div class="car-card">
+                <div class="car-img" style="background-image:url('w219.jpg')">
+                    <div class="overlay"><h4>Mercedes W219</h4><p>CLS Classic</p></div>
+                </div>
+                <div class="car-details"><h3>Mercedes CLS W219</h3><p class="car-price">15,000 $</p></div>
+            </div>
+
         </div>
     </main>
 
+    <div id="aboutModal" class="full-modal">
+        <div class="modal-box">
+            <span class="close-modal" onclick="toggleModal('aboutModal')">&times;</span>
+            <h2 style="text-align: center;">ჩვენს <span>შესახებ</span></h2>
+            <p style="margin-top: 20px; color: #888; text-align: center; line-height: 1.6;">
+                AutoMarket არის თანამედროვე ავტო-პლატფორმა, რომელიც აკავშირებს მყიდველებსა და გამყიდველებს საქართველოში. ჩვენი მიზანია შევქმნათ ყველაზე კომფორტული და უსაფრთხო გარემო ავტომობილების ყიდვა-გაყიდვისთვის.
+            </p>
+        </div>
+    </div>
+
     <div id="sellModal" class="full-modal">
         <div class="modal-box">
-            <span style="position:absolute; top:10px; right:20px; cursor:pointer;" onclick="toggleModal('sellModal')">&times;</span>
-            <h2>გაყიდე მანქანა</h2>
+            <span class="close-modal" onclick="toggleModal('sellModal')">&times;</span>
+            <h2>გაყიდე <span>მანქანა</span></h2>
             <form id="sellForm">
                 <input type="text" id="mModel" placeholder="მოდელი" required>
                 <input type="number" id="mYear" placeholder="წელი" required>
@@ -79,7 +128,7 @@
                 if(d.success) {
                     window.imgUrl = d.data.url;
                     sBtn.disabled = false;
-                    document.getElementById('status').innerText = "მზადაა გამოსაქვეყნებლად!";
+                    document.getElementById('status').innerText = "მზადაა!";
                 }
             } catch(err) { alert("შეცდომა სურათის ატვირთვისას"); }
         };
