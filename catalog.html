@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AutoMarket | კატალოგი</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <header>
@@ -18,19 +17,17 @@
         </nav>
     </header>
 
-    <div class="search-container">
-        <h2 class="section-title">იპოვე სასურველი ავტომობილი</h2>
-        <input type="text" id="searchInput" class="search-bar" placeholder="ჩაწერეთ მოდელი (მაგ: Mercedes, BMW)...">
+    <div class="search-container" style="margin-top: 100px; text-align: center;">
+        <input type="text" id="searchInput" class="search-bar" placeholder="მოძებნე მოდელი...">
     </div>
 
     <main class="container">
-        <div id="carList" class="car-grid">
-            </div>
+        <div id="carList" class="car-grid"></div>
     </main>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCx2sZJQqP8ni_dz9fuhJwKWJrHnKRjGdE",
@@ -38,66 +35,38 @@
             projectId: "automarket-2026",
             appId: "1:689194639330:web:db854d0dbfddded899a3bb"
         };
-
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
+
         const carList = document.getElementById('carList');
         const searchInput = document.getElementById('searchInput');
-
-        // Admin შემოწმება
-        const urlParams = new URLSearchParams(window.location.search);
-        const isAdmin = urlParams.get('admin') === '123';
-
         let allCars = [];
 
-        // მონაცემების წამოღება რეალურ დროში
-        onValue(ref(db, 'cars'), (snapshot) => {
-            const data = snapshot.val();
-            allCars = data ? Object.entries(data) : [];
-            displayCars(allCars);
+        onValue(ref(db, 'cars'), (snap) => {
+            allCars = snap.val() ? Object.entries(snap.val()) : [];
+            render(allCars);
         });
 
-        // ძებნის ფუნქცია
         searchInput.addEventListener('input', (e) => {
             const term = e.target.value.toLowerCase();
-            const filtered = allCars.filter(([id, car]) => 
-                car.model.toLowerCase().includes(term)
-            );
-            displayCars(filtered);
+            const filtered = allCars.filter(([id, car]) => car.model.toLowerCase().includes(term));
+            render(filtered);
         });
 
-        function displayCars(cars) {
+        function render(cars) {
             carList.innerHTML = "";
-            if (cars.length === 0) {
-                carList.innerHTML = "<p style='text-align:center; width:100%; color:#888;'>მანქანები ვერ მოიძებნა...</p>";
-                return;
-            }
-
             cars.forEach(([id, car]) => {
-                const card = document.createElement('div');
-                card.className = 'car-card';
-                card.innerHTML = `
-                    <div class="car-img" style="background-image: url('${car.image}')"></div>
-                    <div class="car-details">
-                        <h3>${car.model}</h3>
-                        <p class="car-price">${car.price} $</p>
-                        <div class="pop-specs">
-                            <span><i class="fa fa-phone"></i> ${car.phone || 'N/A'}</span>
-                            <span><i class="fa fa-tag"></i> ${car.condition || 'მეორადი'}</span>
+                carList.innerHTML += `
+                    <div class="car-card">
+                        <div class="car-img" style="background-image: url('${car.image}'); background-size: cover; background-position: center; height: 200px;"></div>
+                        <div class="car-details">
+                            <h3>${car.model}</h3>
+                            <p class="car-price">${car.price} $</p>
+                            <p style="font-size: 13px; color: #888;">📞 ${car.phone} | ⚙️ ${car.condition}</p>
                         </div>
-                        ${isAdmin ? `<button class="delete-btn" onclick="deleteCar('${id}')">წაშლა</button>` : ''}
-                    </div>
-                `;
-                carList.appendChild(card);
+                    </div>`;
             });
         }
-
-        // წაშლის ფუნქცია (მხოლოდ ადმინისთვის)
-        window.deleteCar = (id) => {
-            if(confirm('დარწმუნებული ხართ?')) {
-                remove(ref(db, `cars/${id}`));
-            }
-        };
     </script>
 </body>
 </html>
