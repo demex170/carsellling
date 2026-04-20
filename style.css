@@ -1,82 +1,33 @@
-/* კატალოგის სპეციფიკური სტილები */
-.search-container {
-    margin-top: 120px;
-    text-align: center;
-    padding: 0 20px;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+body { background: #0b0b0b; color: white; }
+.container { max-width: 1200px; margin: auto; padding: 0 20px; }
 
-.search-bar {
-    width: 100%;
-    max-width: 500px;
-    padding: 15px 25px;
-    border-radius: 30px;
-    border: 1px solid #333;
-    background: #1a1a1a;
-    color: white;
-    font-size: 16px;
-    outline: none;
-    transition: 0.3s;
-    margin-top: 20px;
-}
+/* Navbar */
+.navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 8%; background: #000; border-bottom: 1px solid #222; position: fixed; width: 100%; top: 0; z-index: 1000; }
+.logo span { color: #ff3e3e; font-weight: bold; }
+.nav-links { list-style: none; display: flex; align-items: center; }
+.nav-links li { margin-left: 20px; }
+.nav-links a { color: white; text-decoration: none; font-size: 14px; }
+.btn-sell { background: #ff3e3e; padding: 8px 15px; border-radius: 5px; font-weight: bold; }
 
-.search-bar:focus {
-    border-color: #ff3e3e;
-    box-shadow: 0 0 15px rgba(255, 62, 62, 0.2);
-}
+/* Hero */
+.hero { height: 60vh; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1500'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; margin-top: 50px; }
 
-.car-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 25px;
-    padding: 40px 0;
-}
+/* Grids */
+.pop-grid, .car-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; padding: 40px 0; }
+.pop-card, .car-card { background: #151515; border-radius: 10px; overflow: hidden; border: 1px solid #222; transition: 0.3s; }
+.pop-img { height: 180px; background-size: cover; background-position: center; }
+.pop-info, .car-details { padding: 15px; }
+.car-price { color: #ff3e3e; font-size: 20px; font-weight: bold; }
 
-.car-card {
-    background: #151515;
-    border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid #222;
-    transition: 0.3s;
-}
+/* Modals */
+.full-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; }
+.modal-box { background: #111; padding: 30px; border-radius: 15px; border: 1px solid #333; width: 90%; max-width: 800px; position: relative; }
+.small-modal { max-width: 450px; }
+.close-modal { position: absolute; top: 10px; right: 20px; font-size: 30px; cursor: pointer; }
 
-.car-card:hover {
-    transform: translateY(-5px);
-}
-
-.car-img {
-    height: 200px;
-    background-size: cover;
-    background-position: center;
-}
-
-.car-details {
-    padding: 20px;
-}
-
-.car-details h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-
-.car-price {
-    color: #ff3e3e;
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 15px;
-}
-
-.delete-btn {
-    margin-top: 15px;
-    background: none;
-    border: 1px solid #ff3e3e;
-    color: #ff3e3e;
-    padding: 8px;
-    width: 100%;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.delete-btn:hover {
-    background: #ff3e3e;
-    color: white;
-}
+/* Forms */
+input, select, textarea { width: 100%; padding: 10px; margin-top: 5px; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 5px; }
+.field { margin-bottom: 15px; }
+.submit-btn { background: #ff3e3e; color: white; border: none; padding: 12px; width: 100%; border-radius: 5px; cursor: pointer; font-weight: bold; }
+.search-bar { width: 50%; padding: 12px; border-radius: 25px; border: 1px solid #ff3e3e; background: #111; color: white; }
