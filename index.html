@@ -17,35 +17,40 @@
         </ul>
     </nav>
 
+    <section class="hero">
+        <h1>AUTO<span>MARKET</span></h1>
+        <p>საქართველოს ახალი ყიდვა-გაყიდვის ვებ-გვერდი. იპოვე შენი საოცნებო ავტომობილი საუკეთესო ფასად.</p>
+    </section>
+
     <main class="container">
         <h2 class="section-title">პოპულარული მოდელები</h2>
         <div class="car-grid">
             <div class="car-card">
-                <div class="car-img" style="background-image:url('w218.jpg')"></div>
+                <div class="car-img" style="background-image:url('https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=600')"></div>
                 <div class="car-details"><h3>Mercedes CLS W218</h3><p class="car-price">35,000 $</p></div>
             </div>
             <div class="car-card">
-                <div class="car-img" style="background-image:url('m5.jpg')"></div>
+                <div class="car-img" style="background-image:url('https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=600')"></div>
                 <div class="car-details"><h3>BMW M5 E60</h3><p class="car-price">28,000 $</p></div>
             </div>
             <div class="car-card">
-                <div class="car-img" style="background-image:url('m4.jpg')"></div>
+                <div class="car-img" style="background-image:url('https://images.unsplash.com/photo-1617531653332-bd46c24f2068?q=80&w=600')"></div>
                 <div class="car-details"><h3>BMW M4 G82</h3><p class="car-price">75,000 $</p></div>
             </div>
             <div class="car-card">
-                <div class="car-img" style="background-image:url('bugatti.jpg')"></div>
+                <div class="car-img" style="background-image:url('https://images.unsplash.com/photo-1544636331-e26879cd4d9b?q=80&w=600')"></div>
                 <div class="car-details"><h3>Bugatti La Voiture</h3><p class="car-price">18,000,000 $</p></div>
             </div>
             <div class="car-card">
-                <div class="car-img" style="background-image:url('gt3rs.jpg')"></div>
+                <div class="car-img" style="background-image:url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=600')"></div>
                 <div class="car-details"><h3>Porsche 911 GT3 RS</h3><p class="car-price">350,000 $</p></div>
             </div>
             <div class="car-card">
-                <div class="car-img" style="background-image:url('w211.jpg')"></div>
+                <div class="car-img" style="background-image:url('https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=600')"></div>
                 <div class="car-details"><h3>Mercedes W211 E63</h3><p class="car-price">18,000 $</p></div>
             </div>
             <div class="car-card">
-                <div class="car-img" style="background-image:url('w219.jpg')"></div>
+                <div class="car-img" style="background-image:url('https://images.unsplash.com/photo-1617814076668-8dfc6fe157c7?q=80&w=600')"></div>
                 <div class="car-details"><h3>Mercedes CLS W219</h3><p class="car-price">15,000 $</p></div>
             </div>
         </div>
@@ -56,15 +61,8 @@
             <span class="close-modal" onclick="toggleModal('aboutModal')">&times;</span>
             <h2 style="color:var(--accent); text-align: center;">ჩვენს შესახებ</h2>
             <p style="margin-top:20px; font-size:15px; line-height:1.7; color:#bbb; text-align: center;">
-                AutoMarket არის ინოვაციური პლატფორმა, რომელიც აადვილებს ავტომობილების ყიდვა-გაყიდვის პროცესს. ჩვენი პრიორიტეტია მომხმარებლის კომფორტი და უსაფრთხოება.
+                AutoMarket არის ინოვაციური პლატფორმა, რომელიც აადვილებს ავტომობილების ყიდვა-გაყიდვის პროცესს საქართველოში.
             </p>
-            <div style="margin:25px 0; height:1px; background:var(--border);"></div>
-            <h3 style="text-align: center;"><i class="fas fa-exclamation-triangle"></i> პრობლემის რეპორტი</h3>
-            <form action="mailto:support@automarket.ge" method="post" enctype="text/plain">
-                <input type="text" name="Subject" placeholder="სათაური / პრობლემა" required>
-                <textarea name="Message" rows="3" placeholder="აღწერეთ ხარვეზი..." required></textarea>
-                <button type="submit" class="submit-btn">გაგზავნა</button>
-            </form>
         </div>
     </div>
 
@@ -73,7 +71,8 @@
             <span class="close-modal" onclick="toggleModal('sellModal')">&times;</span>
             <h2 style="text-align: center;">მანქანის დამატება</h2>
             <form id="sellForm">
-                <input type="text" id="mModel" placeholder="ავტომობილის მოდელი (მაგ: BMW M5)" required>
+                <input type="text" id="mModel" placeholder="ავტომობილის მოდელი" required>
+                <input type="number" id="mYear" placeholder="გამოშვების წელი (მაგ: 2018)" required min="1900" max="2026">
                 <input type="number" id="mPrice" placeholder="ფასი ($)" required>
                 <input type="tel" id="mPhone" placeholder="საკონტაქტო ნომერი" required>
                 <select id="mFuel">
@@ -102,41 +101,4 @@
         const app = initializeApp(config);
         const db = getDatabase(app);
 
-        const fileIn = document.getElementById('mFile');
-        const status = document.getElementById('uploadStatus');
-
-        fileIn.onchange = async (e) => {
-            status.innerText = "სურათი იტვირთება...";
-            const fd = new FormData(); fd.append('image', e.target.files[0]);
-            try {
-                const res = await fetch('https://api.imgbb.com/1/upload?key=288f0f93fa8f453cc70cb272d0e7480f', {method:'POST', body:fd});
-                const d = await res.json();
-                if(d.success) { 
-                    window.finalUrl = d.data.url; 
-                    document.getElementById('subBtn').disabled = false; 
-                    status.innerText = "სურათი მზად არის!";
-                    status.style.color = "#25d366";
-                }
-            } catch (err) { status.innerText = "ატვირთვის შეცდომა."; }
-        };
-
-        document.getElementById('sellForm').onsubmit = (e) => {
-            e.preventDefault();
-            push(ref(db, 'cars'), {
-                model: document.getElementById('mModel').value,
-                price: Number(document.getElementById('mPrice').value),
-                phone: document.getElementById('mPhone').value,
-                fuel: document.getElementById('mFuel').value,
-                image: window.finalUrl,
-                date: new Date().toLocaleDateString()
-            }).then(() => location.href = "catalog.html");
-        };
-    </script>
-    <script>
-        function toggleModal(id) {
-            const m = document.getElementById(id);
-            m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
-        }
-    </script>
-</body>
-</html>
+        const file
