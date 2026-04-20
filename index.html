@@ -13,7 +13,7 @@
             <li><a href="index.html">მთავარი</a></li>
             <li><a href="catalog.html">კატალოგი</a></li>
             <li><a onclick="toggleModal('aboutModal')">ჩვენს შესახებ</a></li>
-            <li><a onclick="toggleModal('sellModal')" class="btn-sell">გაყიდე</a></li>
+            <li><button class="btn-sell" onclick="toggleModal('sellModal')">გაყიდე</button></li>
         </ul>
     </nav>
 
@@ -54,16 +54,16 @@
     <div id="aboutModal" class="full-modal">
         <div class="modal-box">
             <span class="close-modal" onclick="toggleModal('aboutModal')">&times;</span>
-            <h2 style="color:var(--accent)">ჩვენს შესახებ</h2>
-            <p style="margin-top:15px; font-size:14px; line-height:1.6; color:#ccc;">
-                AutoMarket არის თანამედროვე პლატფორმა ავტომობილების შესაძენად და გასაყიდად. ჩვენ ვუზრუნველყოფთ სწრაფ და საიმედო კავშირს გამყიდველსა და მყიდველს შორის.
+            <h2 style="color:var(--accent); text-align: center;">ჩვენს შესახებ</h2>
+            <p style="margin-top:20px; font-size:15px; line-height:1.7; color:#bbb; text-align: center;">
+                AutoMarket არის ინოვაციური პლატფორმა, რომელიც აადვილებს ავტომობილების ყიდვა-გაყიდვის პროცესს. ჩვენი პრიორიტეტია მომხმარებლის კომფორტი და უსაფრთხოება.
             </p>
-            <hr style="margin:20px 0; border:0; border-top:1px solid var(--border);">
-            <h3>პრობლემის რეპორტი</h3>
-            <form action="mailto:შენი-იმეილი@gmail.com" method="post" enctype="text/plain">
-                <input type="text" name="Subject" placeholder="პრობლემის დასახელება" required>
-                <textarea name="Message" rows="4" placeholder="აღწერეთ პრობლემა დეტალურად..." required></textarea>
-                <button type="submit" class="submit-btn">გაგზავნა ემაილით</button>
+            <div style="margin:25px 0; height:1px; background:var(--border);"></div>
+            <h3 style="text-align: center;"><i class="fas fa-exclamation-triangle"></i> პრობლემის რეპორტი</h3>
+            <form action="mailto:support@automarket.ge" method="post" enctype="text/plain">
+                <input type="text" name="Subject" placeholder="სათაური / პრობლემა" required>
+                <textarea name="Message" rows="3" placeholder="აღწერეთ ხარვეზი..." required></textarea>
+                <button type="submit" class="submit-btn">გაგზავნა</button>
             </form>
         </div>
     </div>
@@ -71,11 +71,67 @@
     <div id="sellModal" class="full-modal">
         <div class="modal-box">
             <span class="close-modal" onclick="toggleModal('sellModal')">&times;</span>
-            <h2>განცხადების დამატება</h2>
-            <p style="color:#777; margin-top:10px">Firebase ლოგიკა იგივე რჩება...</p>
+            <h2 style="text-align: center;">მანქანის დამატება</h2>
+            <form id="sellForm">
+                <input type="text" id="mModel" placeholder="ავტომობილის მოდელი (მაგ: BMW M5)" required>
+                <input type="number" id="mPrice" placeholder="ფასი ($)" required>
+                <input type="tel" id="mPhone" placeholder="საკონტაქტო ნომერი" required>
+                <select id="mFuel">
+                    <option value="ბენზინი">ბენზინი</option>
+                    <option value="დიზელი">დიზელი</option>
+                    <option value="ჰიბრიდი">ჰიბრიდი</option>
+                    <option value="ელექტრო">ელექტრო</option>
+                </select>
+                <input type="file" id="mFile" accept="image/*" required>
+                <div id="uploadStatus" style="font-size:12px; margin-top:5px; color:var(--accent)"></div>
+                <button type="submit" id="subBtn" class="submit-btn" disabled>განთავსება</button>
+            </form>
         </div>
     </div>
 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const config = {
+            apiKey: "AIzaSyCx2sZJQqP8ni_dz9fuhJwKWJrHnKRjGdE",
+            databaseURL: "https://automarket-2026-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "automarket-2026",
+            appId: "1:689194639330:web:db854d0dbfddded899a3bb"
+        };
+        const app = initializeApp(config);
+        const db = getDatabase(app);
+
+        const fileIn = document.getElementById('mFile');
+        const status = document.getElementById('uploadStatus');
+
+        fileIn.onchange = async (e) => {
+            status.innerText = "სურათი იტვირთება...";
+            const fd = new FormData(); fd.append('image', e.target.files[0]);
+            try {
+                const res = await fetch('https://api.imgbb.com/1/upload?key=288f0f93fa8f453cc70cb272d0e7480f', {method:'POST', body:fd});
+                const d = await res.json();
+                if(d.success) { 
+                    window.finalUrl = d.data.url; 
+                    document.getElementById('subBtn').disabled = false; 
+                    status.innerText = "სურათი მზად არის!";
+                    status.style.color = "#25d366";
+                }
+            } catch (err) { status.innerText = "ატვირთვის შეცდომა."; }
+        };
+
+        document.getElementById('sellForm').onsubmit = (e) => {
+            e.preventDefault();
+            push(ref(db, 'cars'), {
+                model: document.getElementById('mModel').value,
+                price: Number(document.getElementById('mPrice').value),
+                phone: document.getElementById('mPhone').value,
+                fuel: document.getElementById('mFuel').value,
+                image: window.finalUrl,
+                date: new Date().toLocaleDateString()
+            }).then(() => location.href = "catalog.html");
+        };
+    </script>
     <script>
         function toggleModal(id) {
             const m = document.getElementById(id);
