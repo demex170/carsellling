@@ -1,122 +1,77 @@
 <!DOCTYPE html>
-<html lang="ka" data-theme="dark">
+<html lang="ka">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AutoMarket | კატალოგი</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <header>
-        <nav class="navbar">
-            <div class="logo">AUTO<span>MARKET</span></div>
-            <ul class="nav-links">
-                <li><a href="index.html">მთავარი</a></li>
-                <li><a href="catalog.html">კატალოგი</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <div class="filter-section container" style="margin-top: 110px;">
-        <div class="filter-grid">
-            <input type="text" id="searchInput" placeholder="ჩაწერე მოდელი...">
-            <select id="priceFilter">
-                <option value="all">ყველა ფასი</option>
-                <option value="0-15000">15,000$-მდე</option>
-                <option value="15000-50000">15,000$ - 50,000$</option>
-                <option value="50000+">50,000$ +</option>
-            </select>
-            <select id="sortOrder">
-                <option value="new">ახალი დამატებული</option>
-                <option value="low">ჯერ იაფი</option>
-                <option value="high">ჯერ ძვირი</option>
-            </select>
-        </div>
-    </div>
+    <nav class="navbar">
+        <div class="logo">AUTO<span>MARKET</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">მთავარი</a></li>
+            <li><a href="catalog.html" style="color: var(--accent);">კატალოგი</a></li>
+            <li><a onclick="window.location.href='index.html#aboutModal'">ჩვენს შესახებ</a></li>
+        </ul>
+    </nav>
 
     <main class="container">
-        <div id="carList" class="car-grid"></div>
+        <h2 class="section-title">ყველა განცხადება</h2>
+        <div id="catGrid" class="car-grid"></div>
     </main>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        const firebaseConfig = { /* იგივე კონფიგი */ };
-        const app = initializeApp(firebaseConfig);
+        // შენი Firebase კონფიგურაცია
+        const config = {
+            apiKey: "AIzaSyCx2sZJQqP8ni_dz9fuhJwKWJrHnKRjGdE",
+            databaseURL: "https://automarket-2026-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "automarket-2026",
+            appId: "1:689194639330:web:db854d0dbfddded899a3bb"
+        };
+
+        const app = initializeApp(config);
         const db = getDatabase(app);
+        const grid = document.getElementById('catGrid');
 
-        let allCars = [];
-        let favorites = JSON.parse(localStorage.getItem('favCars')) || [];
-        const isAdmin = new URLSearchParams(window.location.search).get('admin') === '123';
+        // მონაცემების წამოღება რეალურ დროში
+        onValue(ref(db, 'cars'), (snapshot) => {
+            const data = snapshot.val();
+            grid.innerHTML = ""; // გასუფთავება
 
-        onValue(ref(db, 'cars'), (snap) => {
-            allCars = snap.val() ? Object.entries(snap.val()) : [];
-            applyFilters();
-        });
-
-        ['searchInput', 'priceFilter', 'sortOrder'].forEach(id => {
-            document.getElementById(id).addEventListener('input', applyFilters);
-        });
-
-        function applyFilters() {
-            let filtered = [...allCars];
-            const search = document.getElementById('searchInput').value.toLowerCase();
-            const priceVal = document.getElementById('priceFilter').value;
-            const sort = document.getElementById('sortOrder').value;
-
-            filtered = filtered.filter(([id, car]) => car.model.toLowerCase().includes(search));
-
-            if(priceVal !== 'all') {
-                const [min, max] = priceVal.split('-').map(Number);
-                filtered = filtered.filter(([id, car]) => max ? (car.price >= min && car.price <= max) : car.price >= min);
+            if (!data) {
+                grid.innerHTML = "<h3 style='grid-column: 1/-1; text-align: center; color: #555;'>განცხადებები ჯერჯერობით არ არის.</h3>";
+                return;
             }
 
-            if(sort === 'low') filtered.sort((a,b) => a[1].price - b[1].price);
-            if(sort === 'high') filtered.sort((a,b) => b[1].price - a[1].price);
-
-            render(filtered);
-        }
-
-        function render(cars) {
-            const list = document.getElementById('carList');
-            list.innerHTML = "";
-            cars.forEach(([id, car]) => {
-                const isFav = favorites.includes(id);
+            // მონაცემების შებრუნება (რომ ახალი პირველი გამოჩნდეს)
+            Object.entries(data).reverse().forEach(([id, car]) => {
                 const card = document.createElement('div');
-                card.className = `car-card ${car.isVIP ? 'vip-card' : ''}`;
+                card.className = 'car-card';
+
                 card.innerHTML = `
-                    <div class="car-img" style="background-image: url('${car.image}')">
-                        <i class="${isFav ? 'fas' : 'far'} fa-heart fav-btn" data-id="${id}"></i>
-                        <div class="pop-overlay">
-                            <p class="car-bio">დამატებულია: ${car.date || 'ახლახან'}</p>
-                            <ul>
-                                <li><strong>მდგომარეობა:</strong> ${car.condition}</li>
-                                <li><strong>ტელეფონი:</strong> ${car.phone}</li>
-                                <li><strong>ფასი:</strong> ${car.price} $</li>
-                            </ul>
+                    <div class="car-img" style="background-image:url('${car.image}')">
+                        <div class="overlay">
+                            <h4>${car.model}</h4>
+                            <p>${car.year || 'N/A'} წელი</p>
+                            <a href="tel:${car.phone}" style="color: white; text-decoration: none; margin-top: 10px; border: 1px solid white; padding: 5px 15px; border-radius: 5px;">
+                                <i class="fas fa-phone"></i> დარეკვა
+                            </a>
                         </div>
                     </div>
                     <div class="car-details">
                         <h3>${car.model}</h3>
+                        <p style="color: #777; font-size: 13px; margin-bottom: 5px;">${car.year} წელი | ${car.fuel || 'ბენზინი'}</p>
                         <p class="car-price">${car.price} $</p>
-                        ${isAdmin ? `<button class="admin-del" data-id="${id}">წაშლა</button>` : ''}
-                    </div>`;
-                list.appendChild(card);
+                        <p style="margin-top: 10px; font-weight: bold; color: var(--text);">${car.phone}</p>
+                    </div>
+                `;
+                grid.appendChild(card);
             });
-
-            // Event Listeners
-            document.querySelectorAll('.fav-btn').forEach(btn => {
-                btn.onclick = (e) => {
-                    const cid = e.target.dataset.id;
-                    if(favorites.includes(cid)) favorites = favorites.filter(f => f !== cid);
-                    else favorites.push(cid);
-                    localStorage.setItem('favCars', JSON.stringify(favorites));
-                    applyFilters();
-                };
-            });
-        }
+        });
     </script>
 </body>
 </html>
